@@ -1,0 +1,3 @@
+Locations Table: Name field size increased to 50
+Passenger Table: Change cnic to varchar(13)
+Room Table: extra package for Worker added
