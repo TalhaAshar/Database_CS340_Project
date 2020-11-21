@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>My pg</title>
+</head>
+
+<body onload="Calculate()">
+	<button onclick="document.getElementById('stuff').innerHTML = 'Clicked first button';">First{{username}}</button>
+	<button onclick="document.getElementById('stuff').innerHTML = 'Clicked second button';">Second</button>
+	<p>This code shouldn't change</p>
+	<p id="stuff">This should change</p>
+	<p>This code shouldn't change</p>
+
+	<form action="tempFunc", method="POST">
+  		<input type="hidden" id="fname" name="fname"><br><br>
+  		<input type = "submit" value = "Return to Homepage"/>
+	</form>
+	<form>
+		<input type = "submit" value = "do shit"/>
+	</form>
+	<script> 
+		function Calculate(){
+		    var data = '{{ username }}'; 
+		    document.getElementById('fname').value = data;
+		    console.log(document.getElementById('fname').value);
+		}
+</script>
+</body>
+
+</html>
