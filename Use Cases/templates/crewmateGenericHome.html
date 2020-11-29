@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='navigation3.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='receipt.css') }}">
+</head>
+<body onload="Calculate()">
+    <nav>
+      <ul>
+        <li><a href="#">{{ name }}</a></li>
+        <li>
+          <form action="crewmateSwapIntermediate", method="POST">
+              <input type="hidden" id="userSwap" name="userSwap">
+              <input type="hidden" id="OriginSwap" name="OriginSwap">
+              <input type="hidden" id="ExpSwap" name="ExpSwap">
+              <input type="hidden" id="NameSwap" name="NameSwap">
+              <input type="hidden" id="DeptSwap" name="DeptSwap">
+              <input type="hidden" id="StatusSwap" name="StatusSwap">
+              <input type="submit" value="          Swap         ">
+
+            </form>
+        </li>
+        <!--Add in the use cases here.-->
+        <li><a href="returnHome">Logout</a></li>
+      </ul>
+    </nav>
+  <section>
+    <br>
+    <br><br>
+		<table class="center">
+      <caption>My Details</caption>
+      <thead>
+            <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Origin</th>
+          <th>Department Name</th>
+          <th>Experience</th>
+          <th>Status</th>
+          <th></th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ username }}</td>
+            <td>{{ name }}</td>
+            <td>{{ origin }}</td>
+            <td>{{ dept }}</td>
+            <td>{{ exp }}</td>
+            <td>{{ status }}</td>
+          </tr>
+        </tbody>
+	</section>
+  <script> 
+    function Calculate(){
+        var data = '{{ username }}';
+        document.getElementById('userSwap').value = data;
+        //document.getElementById('userDel').value = data;
+        //document.getElementById('userUPG').value = data;
+        //document.getElementById('userView').value = data;
+        var name = '{{ name }}';
+        document.getElementById('NameSwap').value = name;
+        //document.getElementById('NameDel').value = name;
+        //document.getElementById('NameUPG').value = name;
+        //document.getElementById('NameView').value = name;
+        var origin = '{{ origin }}';
+        document.getElementById('OriginSwap').value = origin;
+        //document.getElementById('OriginDel').value = origin;
+        //document.getElementById('OriginUPG').value = origin;
+        var dept = '{{ dept }}';
+        document.getElementById('DeptSwap').value = dept;
+        //document.getElementById('DeptDel').value = dept;
+        //document.getElementById('DeptUPG').value = dept;
+        var exp = '{{ exp }}';
+        document.getElementById('ExpSwap').value = exp;
+       // document.getElementById('expDel').value = exp;
+        //document.getElementById('expUPG').value = exp;
+        var status = '{{ status }}';
+        document.getElementById('StatusSwap').value = status;
+        //document.getElementById('statusDel').value = status;
+        //document.getElementById('statusUPG').value = status;
+    }
+  </script>
+</body>
+</html>

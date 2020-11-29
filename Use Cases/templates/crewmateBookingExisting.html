@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Insert Crewmate</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='total.css') }}">
+</head>
+
+
+<body onload="Calculate()">
+	<form action="committingCrewmate_LoginExisting", method="POST">
+	<fieldset>
+		<legend>Enter Crewmate Information</legend>
+		<label for="Dept">Department:</label>
+		<input type="text" name="Dept" id="Dept" required pattern="^.{1, 20}$"> <br/>
+
+		<label for="Room_ID">Room Number:</label>
+		<input type="number" name="Room_ID" id="Room_ID" required> <br/>
+
+		<input type="hidden" name="Date" id="Date">
+		<input type="hidden" name="Quarter" id="Quarter">
+
+  		<label for="User-ID">Username:</label>
+		<input type="text" name="User-ID" id="User-ID" pattern = "[0-9]{9}" required> <br/>
+
+  		<input type="submit" value="Submit">
+	</fieldset>
+	</form>
+
+	<div style="height:500px;width:300px;overflow:auto;" class="b">
+	<table class="center">
+			<caption>Available Rooms</caption>
+			<thead>
+        		<tr>
+					<th>Room Number</th>
+        		</tr>
+		    </thead>
+		    <tbody>
+			    {% for item in tables %}
+			    <tr>
+			    	<td>{{ item }}</td>
+			    </tr>
+			    {% endfor %}
+			</tbody>
+
+		</table>
+</div>
+
+<script> 
+    function Calculate(){
+        var Year = '{{ year }}'; 
+        document.getElementById('Date').value = Year;
+
+        var Quarter = '{{ quarter }}';
+        document.getElementById('Quarter').value = Quarter;
+
+        console.log(document.getElementById('Date').value)
+        console.log(document.getElementById('Quarter').value)
+        
+    }
+  </script>
+</body>
+
+
+</html>

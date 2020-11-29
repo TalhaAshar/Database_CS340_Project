@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='navigation3.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='receipt.css') }}">
+</head>
+<body onload="Calculate()">
+    <nav>
+      <ul>
+        <li><a href="#">Offshore Management</a></li>
+        <li><a href="#">Marketing</a>
+          <ul>
+            <div class="four">
+            <li>
+              <a href="promotionalCampaign">Advertisement</a>
+            </li>
+            <li><form action="bookingIntermediate", method="POST">
+              <input type="hidden" id="userBook" name="userBook">
+              <input type="hidden" id="CNICBook" name="CNICBook">
+              <input type="hidden" id="AgeBook" name="AgeBook">
+              <input type="hidden" id="NameBook" name="NameBook">
+              <input type="hidden" id="disabilityBook" name="disabilityBook">
+              <input type="hidden" id="promo_campaignBook" name="promo_campaignBook">
+              <input type="submit" value="           Complaints           ">
+            </form></li>
+            </div>
+          </ul>
+        </li>
+        <li><a href="#">Human Resource</a>
+          <ul>
+            <li>
+              <a href="crewmateBookChoice">Insert</a>
+            </li>
+            <li>
+              <a href="crewmateIntermediateUpdate">Update</a>
+            </li>
+            <li>
+              <a href="offshoreSwapInter">Swap</a>
+            </li>
+          </ul>
+        </li>
+        <li><a href="returnHome">Logout</a></li>
+      </ul>
+    </nav>
+  <section>
+    <br>
+    <br><br>
+		<table class="center">
+      <caption>My Details</caption>
+      <thead>
+            <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>CNIC</th>
+          <th>Disability</th>
+          <th>Promotional_Consent</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ username }}</td>
+            <td>{{ name }}</td>
+            <td>{{ age }}</td>
+            <td>{{ CNIC }}</td>
+            <td>{{ disability }}</td>
+            <td>{{ promo }}</td>
+          </tr>
+        </tbody>
+	</section>
+  <script> 
+    function Calculate(){
+        var data = '{{ username }}'; 
+        document.getElementById('userBook').value = data;
+        document.getElementById('userDel').value = data;
+        document.getElementById('userUPG').value = data;
+        document.getElementById('userView').value = data;
+        var cnic = '{{ CNIC }}';
+        document.getElementById('CNICBook').value = cnic;
+        document.getElementById('CNICDel').value = cnic;
+        document.getElementById('CNICUPG').value = cnic;
+        var name = '{{ name }}';
+        document.getElementById('NameBook').value = name;
+        document.getElementById('NameDel').value = name;
+        document.getElementById('NameUPG').value = name;
+        document.getElementById('NameView').value = name;
+        var age = '{{ age }}';
+        document.getElementById('AgeBook').value = age;
+        document.getElementById('AgeDel').value = age;
+        document.getElementById('AgeUPG').value = age;
+        var disability = '{{ disability }}';
+        document.getElementById('disabilityBook').value = disability;
+        document.getElementById('disabilityDel').value = disability;
+        document.getElementById('disabilityUPG').value = disability;
+        var promo = '{{ promo }}';
+        document.getElementById('promo_campaignBook').value = promo;
+        document.getElementById('promo_campaignDel').value = promo;
+        document.getElementById('promo_campaignUPG').value = promo;
+    }
+  </script>
+</body>
+</html>

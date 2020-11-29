@@ -1,0 +1,78 @@
+body {
+  background-image: url('texture.jpg');
+  background-repeat: no-repeat;
+  background-size: cover; 
+}
+
+h1
+{
+	font-family: Arial;
+	font-size: 30px;
+	font-weight: 600;
+	color: rgb(0,0,85);
+	text-align: center;
+}
+
+p
+{
+	font-family: Arial;
+	font-size: 17px;
+	font-weight: 550;
+	color: rgb(0,0,110);
+}
+
+label
+{
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: 549;
+	color: rgb(0,0,110);
+	width: 70px;
+	display: inline-block;
+}
+
+button
+{
+	font-family: "Times New Roman";
+	font-weight: 800;
+	font-size: 25px;
+	border-radius: 12px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	box-shadow: 0 9px #999;
+}
+
+input
+{
+	font-family: "Times New Roman";
+	font-weight: 800;
+	text-align: right;
+	border-radius: 12px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+}
+
+div.a {
+  line-height: 0;
+  margin-bottom: 3em ;
+}
+
+div.b {
+  line-height: 0;
+  margin-bottom: 3em ;
+}
+
+div.c {
+  line-height: 0;
+  margin-bottom: 3em ;
+}
+
+div.d {
+  line-height: 0;
+  margin-bottom: 3em ;
+}
+
+div.e {
+  line-height: 0;
+  margin-bottom: 3em ;
+}
