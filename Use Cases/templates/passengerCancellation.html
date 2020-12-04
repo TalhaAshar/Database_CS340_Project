@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Cancelling</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='pcancellation.css') }}">
+</head>
+
+
+<body onload="Calculate()">
+	<form action="deletingPassengerRoom", method="POST">
+	<fieldset>
+		<legend>Enter Customer Information</legend>
+
+		<label for="Room_ID">Room Number:</label>
+		<input type="number" name="Room_ID" id="Room_ID" required>
+
+  	
+		<input type="hidden" name="Date" id="Date">
+		<input type="hidden" name="Quarter" id="Quarter">
+		<input type="hidden" id="user" name="user">
+		<input type="hidden" id="CNIC" name="CNIC">
+		<input type="hidden" id="Age" name="Age">
+		<input type="hidden" id="Name" name="Name">
+		<input type="hidden" id="disability" name="disability">
+		<input type="hidden" id="promo_campaign" name="promo_campaign">
+  		<input type="submit" value="Submit">
+	</fieldset>
+	</form>
+
+	<div style="height:500px;width:300px;overflow:auto;" class="b">
+	<table class="center">
+			<caption>Your Rooms</caption>
+			<thead>
+        		<tr>
+					<th>Room Number</th>
+					<th>Package</th>
+					<th>Price</th>
+        		</tr>
+		    </thead>
+		    <tbody>
+			    {% for item in tables %}
+			    <tr>
+			    	<td>{{ item[0] }}</td>
+			    	<td>{{ item[1] }}</td>
+			    	<td>{{ item[2] }}</td>
+			    </tr>
+			    {% endfor %}
+			</tbody>
+
+		</table>
+</div>
+
+	<script> 
+		function Calculate(){
+		    var data = '{{ username }}'; 
+		    document.getElementById('user').value = data;
+
+		    var cnic = '{{ CNIC }}';
+		    document.getElementById('CNIC').value = cnic;
+		    var name = '{{ name }}';
+		    document.getElementById('Name').value = name;
+		    var age = '{{ age }}';
+		    document.getElementById('Age').value = age;
+		    var disability = '{{ disability }}';
+		    document.getElementById('disability').value = disability;
+		    var promo = '{{ promo }}';
+		    document.getElementById('promo_campaign').value = promo;
+		    var Quarter = '{{ quarter }}';
+		    document.getElementById('Quarter').value = Quarter;
+		    var Year = '{{ year }}';
+		    document.getElementById('Date').value = Year;
+		}
+	</script>
+</body>
+
+
+</html>

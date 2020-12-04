@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='navigation3.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='receipt.css') }}">
+</head>
+<body onload="Calculate()">
+  <style>
+      .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 60%;
+      background-image: url("{{ url_for('static', filename='thistwo.jpg') }}");
+
+      height: 60vh;
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    </style>
+
+    <nav>
+      <ul>
+        <li><a href="#">Portal</a>
+          <ul>
+            <li><form action="complaintIntermediate", method="POST">
+              <input type="hidden" id="userComplain" name="userComplain">
+              <input type="submit" value="        Complaints         ">
+            </form></li>
+              <li><form action="roomServiceIntermediate", method="POST">
+              <input type="hidden" id="userService" name="userService">
+              <input type="hidden" id="NameService" name="NameService">
+              <input type="submit" value="      Room Service      ">
+            </form></li>
+          </ul>
+        </li>
+        <li><a href="#">Bookings</a>
+          <ul>
+            <div class="four">
+            <li><form action="viewIntermediate", method="POST">
+              
+              <input type="hidden" id="userView" name="userView">
+              <input type="hidden" id="NameView" name="NameView">
+              <input type="submit" value="           View           ">
+            </form></li>
+            <li><form action="bookingIntermediate", method="POST">
+              <input type="hidden" id="userBook" name="userBook">
+              <input type="hidden" id="CNICBook" name="CNICBook">
+              <input type="hidden" id="AgeBook" name="AgeBook">
+              <input type="hidden" id="NameBook" name="NameBook">
+              <input type="hidden" id="disabilityBook" name="disabilityBook">
+              <input type="hidden" id="promo_campaignBook" name="promo_campaignBook">
+              <input type="submit" value="           Book           ">
+
+            </form></li>
+            </div>
+            <div class="six">
+            <li><form action="upgradeIntermediate", method="POST">
+              
+              <input type="hidden" id="userUPG" name="userUPG">
+              <input type="hidden" id="CNICUPG" name="CNICUPG">
+              <input type="hidden" id="AgeUPG" name="AgeUPG">
+              <input type="hidden" id="NameUPG" name="NameUPG">
+              <input type="hidden" id="disabilityUPG" name="disabilityUPG">
+              <input type="hidden" id="promo_campaignUPG" name="promo_campaignUPG">
+              <input type="submit" value="          Upgrade         ">
+            </form></li>
+            <li>
+              <form action="deleteIntermediate", method="POST">
+              <input type="hidden" id="userDel" name="userDel">
+              <input type="hidden" id="CNICDel" name="CNICDel">
+              <input type="hidden" id="AgeDel" name="AgeDel">
+              <input type="hidden" id="NameDel" name="NameDel">
+              <input type="hidden" id="disabilityDel" name="disabilityDel">
+              <input type="hidden" id="promo_campaignDel" name="promo_campaignDel">
+              <input type="submit" value="          Cancel          ">
+              </div>
+            </form></li>
+          </ul>
+        </li>
+        <li><a href="#">Activites</a>
+          <ul>
+            <li><form >
+              <input type="hidden" id="user" name="user">
+              <input type="hidden" id="CNIC" name="CNIC">
+              <input type="hidden" id="Age" name="Age">
+              <input type="hidden" id="Name" name="Name">
+              <input type="hidden" id="disability" name="disability">
+              <input type="hidden" id="promo_campaign" name="promo_campaign">
+              <input type="submit" value="           View           ">
+            </form></li>
+            <li><form >
+              <input type="hidden" id="user" name="user">
+              <input type="hidden" id="CNIC" name="CNIC">
+              <input type="hidden" id="Age" name="Age">
+              <input type="hidden" id="Name" name="Name">
+              <input type="hidden" id="disability" name="disability">
+              <input type="hidden" id="promo_campaign" name="promo_campaign">
+              <input type="submit" value="         Schedule         ">
+            </form></li>
+          </ul>
+        </li>
+        <li><a href="returnHome">Logout</a></li>
+      </ul>
+    </nav>
+  <section>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+      </div>
+    </div>
+    <br>
+    <br><br>
+		<table class="center">
+      <caption>My Details</caption>
+      <thead>
+            <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>CNIC</th>
+          <th>Disability</th>
+          <th>Promotional_Consent</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ username }}</td>
+            <td>{{ name }}</td>
+            <td>{{ age }}</td>
+            <td>{{ CNIC }}</td>
+            <td>{{ disability }}</td>
+            <td>{{ promo }}</td>
+          </tr>
+        </tbody>
+	</section>
+  <script> 
+    function Calculate(){
+
+      var modal = document.getElementById("myModal");
+      var span = document.getElementsByClassName("close")[0];
+
+      if ('{{ flag }}' == 1){ 
+        console.log(1);
+        modal.style.display = "block";
+      }
+      else{
+        console.log(0);
+      }
+
+      span.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+        var data = '{{ username }}'; 
+        document.getElementById('userBook').value = data;
+        document.getElementById('userDel').value = data;
+        document.getElementById('userUPG').value = data;
+        document.getElementById('userView').value = data;
+        document.getElementById('userComplain').value = data;
+        document.getElementById('userService').value = data;
+        var cnic = '{{ CNIC }}';
+        document.getElementById('CNICBook').value = cnic;
+        document.getElementById('CNICDel').value = cnic;
+        document.getElementById('CNICUPG').value = cnic;
+        var name = '{{ name }}';
+        document.getElementById('NameBook').value = name;
+        document.getElementById('NameDel').value = name;
+        document.getElementById('NameUPG').value = name;
+        document.getElementById('NameView').value = name;
+        document.getElementById('NameService').value = name;
+        var age = '{{ age }}';
+        document.getElementById('AgeBook').value = age;
+        document.getElementById('AgeDel').value = age;
+        document.getElementById('AgeUPG').value = age;
+        var disability = '{{ disability }}';
+        document.getElementById('disabilityBook').value = disability;
+        document.getElementById('disabilityDel').value = disability;
+        document.getElementById('disabilityUPG').value = disability;
+        var promo = '{{ promo }}';
+        document.getElementById('promo_campaignBook').value = promo;
+        document.getElementById('promo_campaignDel').value = promo;
+        document.getElementById('promo_campaignUPG').value = promo;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Sign Up</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='generic3.css') }}">
+</head>
+
+
+<body>
+	<form action="validateTravelAgent", method="POST">
+	<fieldset>
+		<legend>Login Information</legend>
+		<label for="User-ID">Username:</label>
+		<input type="text" name="User-ID" id="User-ID" pattern = "[0-9]{9}" required> <br/>
+
+		<label for="Password">Password:</label>
+		<input type="password" name="Password" id="Password" pattern="^.{1,8}$" required> <br/>
+	</fieldset>
+	<input type = "submit" value = "Verify"/>
+	</form>
+
+			
+</body>
+
+
+</html>

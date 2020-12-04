@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='ohome.css') }}">
+</head>
+<body onload="Calculate()">
+
+  <form action="promotionalCampaign">
+              <input type="submit" value="Advertising">
+  </form>
+  <form action="crewmateBookChoice", method="POST">
+              <input type="submit" value="Insert">
+  </form>
+    <form action="crewmateIntermediateUpdate">
+              <input type="submit" value="Update">
+  </form>
+    <form action="offshoreSwapInter">
+              <input type="submit" value="Swap">
+  </form>
+    <form action="returnHome">
+              <input type="submit" value="Logout">
+  </form>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Upgrade Room</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='pupgrage.css') }}">
+</head>
+
+
+<body onload="Calculate()">
+	<form action="upgradingPassengerRoom", method="POST">
+	<fieldset>
+		<div class = a>
+		<legend>Enter Customer Information</legend></div>
+
+		<label for="Room_ID">Current Room Number:</label>
+		<input type="number" name="Room_ID" id="Room_ID" required> <br/>
+
+		<label for="NewRoom_ID">Desired Room Number:</label>
+		<input type="number" name="NewRoom_ID" id="NewRoom_ID" required> <br/>
+
+		<input type="hidden" name="Date" id="Date">
+		<input type="hidden" name="Quarter" id="Quarter">
+		<input type="hidden" id="user" name="user">
+		<input type="hidden" id="CNIC" name="CNIC">
+		<input type="hidden" id="Age" name="Age">
+		<input type="hidden" id="Name" name="Name">
+		<input type="hidden" id="disability" name="disability">
+		<input type="hidden" id="promo_campaign" name="promo_campaign">
+		<br>
+  		<input type="submit" value="Submit">
+	</fieldset>
+	</form>
+
+	<div style="height:500px;width:300px;overflow:auto;">
+	<table class="center">
+			<caption>Your Rooms</caption>
+			<thead>
+        		<tr>
+					<th>Room Number</th>
+					<th>Package</th>
+					<th>Price</th>
+        		</tr>
+		    </thead>
+		    <tbody>
+			    {% for item in current %}
+			    <tr>
+			    	<td>{{ item[0] }}</td>
+			    	<td>{{ item[1] }}</td>
+			    	<td>{{ item[2] }}</td>
+			    </tr>
+			    {% endfor %}
+			</tbody>
+
+		</table>
+</div>
+
+<div style="height:500px;width:300px;overflow:auto;">
+	<table class="center">
+			<caption>Available Rooms</caption>
+			<thead>
+        		<tr>
+					<th>Room Number</th>
+					<th>Package</th>
+					<th>Price</th>
+        		</tr>
+		    </thead>
+		    <tbody>
+			    {% for item in tables %}
+			    <tr>
+			    	<td>{{ item[0] }}</td>
+			    	<td>{{ item[1] }}</td>
+			    	<td>{{ item[2] }}</td>
+			    </tr>
+			    {% endfor %}
+			</tbody>
+
+		</table>
+</div>
+
+	<script> 
+		function Calculate(){
+		    var data = '{{ username }}'; 
+		    document.getElementById('user').value = data;
+
+		    var cnic = '{{ CNIC }}';
+		    document.getElementById('CNIC').value = cnic;
+		    var name = '{{ name }}';
+		    document.getElementById('Name').value = name;
+		    var age = '{{ age }}';
+		    document.getElementById('Age').value = age;
+		    var disability = '{{ disability }}';
+		    document.getElementById('disability').value = disability;
+		    var promo = '{{ promo }}';
+		    document.getElementById('promo_campaign').value = promo;
+		    var Quarter = '{{ quarter }}';
+		    document.getElementById('Quarter').value = Quarter;
+		    var Year = '{{ year }}';
+		    document.getElementById('Date').value = Year;
+		    console.log(document.getElementById('user').value);
+		    console.log(document.getElementById('CNIC').value);
+		    console.log(document.getElementById('Name').value);
+		    console.log(document.getElementById('Age').value);
+		    console.log(document.getElementById('disability').value);
+		    console.log(document.getElementById('promo_campaign').value);
+		}
+	</script>
+</body>
+
+
+</html>

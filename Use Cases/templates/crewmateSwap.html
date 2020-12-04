@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Swapping</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='generic3.css') }}">
+</head>
+
+
+<body onload="Calculate()">
+	<form action="crewmateSwap", method="POST">
+	<fieldset>
+		<legend>Enter Cruise Information</legend>
+
+  		<label for="Date">Date:</label>
+		<input type="text" name="Date" id="Date" pattern="202[0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])" required> <br/>
+
+		<label for="Quarter">Cruise Quarter:</label>
+		<input type="text" name="Quarter" id="Quarter" pattern="[1-4]" required> <br/><br><br>
+
+		<label for="SecondUser">Other User-ID:</label>
+		<input type="text" name="SecondUser" id="SecondUser" pattern = "[0-9]{9}" required> <br/><br><br>
+
+		<input type="hidden" id="user" name="user" >
+		<input type="hidden" id="dept" name="dept" >
+  		<input type="submit" value="Submit">
+	</fieldset>
+	</form>
+
+	<script> 
+		function Calculate(){
+		    var data = '{{ username }}'; 
+		    document.getElementById('user').value = data;
+
+		    var dept = '{{ dept }}'; 
+		    document.getElementById('dept').value = dept;
+
+		    console.log(document.getElementById('user').value);
+		    console.log(document.getElementById('dept').value);
+		}
+	</script>
+</body>
+
+
+</html>

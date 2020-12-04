@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>CSMS Login Page</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+	<h1>Cruise Ship Management System</h1>
+
+<form action="verifiedLogin", method="POST">
+	<legend>Login Information</legend>
+	<label for="User-ID">User ID:</label>
+	<input type="text" name="User-ID" id="User-ID" pattern = "[0-9]{9}" required> <br/>
+
+	<label for="Password">Password:</label>
+	<input type="password" name="Password" id="Password" pattern=".{1,8}" required> <br>
+	<br>
+	
+	<input type="radio" id="passenger" name="passenger" value="passenger">
+	<label for="passenger">Customer</label><br>
+	<input type="radio" id="crewmate" name="crewmate" value="crewmate">
+	<label for="crewmate">Crewmate</label><br>
+	<input type="radio" id="offshore" name="offshore" value="offshore">
+	<label for="offshore">Offshore Management</label><br>
+	<input type = "submit" value = "Verify"/><br>
+</form>
+
+<form action="signUpForm">
+	
+	<button type="submit" style="position:absolute; top:0; right:0;">I am a Travel Agent</button>
+</form>
+	
+	<!--<p><a class="btn btn-lg btn-success" href="showSignUp" role="button">Sign up today</a></p>-->
+
+</body>
+
+</html>
+

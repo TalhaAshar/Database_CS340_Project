@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Inventory Update</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='total.css') }}">
+</head>
+
+<body onload="Calculate()">
+
+  <form action="updateInventoryDept", method="POST">
+  <fieldset>
+    <legend>Enter Item Information</legend>
+
+    <label for="ID">ID:</label>
+    <input type="ID" name="ID" id="ID" pattern='^\d{1,4}$' required><br>
+
+    <label for="Name">Item Name:</label>
+    <input type="text" name="Name" id="Name" pattern='^\D{1,30}$' required><br>
+
+    <label for="Quantity">Quantity Present:</label>
+    <input type="text" name="Quantity" id="Quantity" pattern='^\d{1,3}$' required><br>
+
+    <label for="Weight">Weight:</label>
+    <input type="text" name="Weight" id="Weight" pattern='^\d{1,3}[.]\d{1,2}$' required><br>
+
+    <label for="Status">Status:</label>
+    <input type="text" name="Status" id="Status" pattern = '^Perishable$|^Hazardous$|^Fragile$' required><br>
+
+    <label for="Description">Description:</label>
+    <input type="text" name="Description" id="Description" pattern='^\D{1,75}$' required><br> <!--Somehow employ numbers in this.-->
+
+    <input type="hidden" id="user" name="user">
+    <input type="hidden" id="dept" name="dept">
+    <input type="submit" value="Submit">
+  </fieldset>
+  </form>
+
+  <div style="height:500px;width:300px;overflow:auto;" class="b">
+  <table class="center">
+      <caption>Current Inventory List</caption>
+      <thead>
+            <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Weight</th>
+          <th>Status</th>
+          <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for item in tables %}
+          <tr>
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] }}</td>
+            <td>{{ item[5] }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+  <script> 
+    function Calculate(){
+        var data = '{{ username }}'; 
+        document.getElementById('user').value = data;
+        var dept = '{{ dept }}';
+        document.getElementById('dept').value = dept;
+    }
+  </script>
+</body>
+
+
+</html>

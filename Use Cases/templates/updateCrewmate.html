@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Booking</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='generic3.css') }}">
+</head>
+
+
+<body>
+	<form action="updateCrewmate", method="POST">
+  <label for="choice">Choose an option:</label>
+  <select name="choice" id="choice" onchange="validate()" required>
+    <option value="Dept">Department</option>
+    <option value="Status" >Status</option>
+    <option value="Both" >Both</option>
+   
+  </select>
+  <br>
+  <label for="User_ID" id="User_ID_Label">User ID:</label>
+  		
+		<input type="text" name="User_ID" id="User_ID" required>
+
+		<label for="CurrentDept" id="CurrentDept_Label">Current Dept:</label>
+		<input type="text" name="CurrentDept" id="CurrentDept" required>
+
+		<label for="NewDept" id="NewDept_Label">New Dept:</label>
+		<input type="text" name="NewDept" id="NewDept" required>
+
+		<label for="Year" id="Year_Label">Year:</label>
+		<input type="text" name="Year" id="Year" pattern="^202[0-9]$" required>
+
+		<label for="Quarter" id="Quarter_Label">Quarter:</label>
+		<input type="text" name="Quarter" id="Quarter" pattern="[1-4]" required>
+		<br>
+		<label for="Active" id="Active_Label" style="display: none;">Active</label>
+		<input type="checkbox" id="Active" name="Active" value="1" style="display: none;"><br>
+		<label for="Inactive" id="Inactive_Label" style="display: none;">Inactive</label>
+		<input type="checkbox" id="Inactive" name="Inactive" value="1" style="display: none;">
+  		
+		<br>
+
+  <input type="submit" value="Submit">
+</form>
+
+		
+
+	<script>
+		function validate()
+		{
+			console.log('h')
+			var ddl = document.getElementById("choice").value;
+			
+			if(ddl == "Status")
+			{
+				document.getElementById('Active').style.display = 'inline-block';
+				document.getElementById('Active_Label').style.display = 'inline-block';
+				//document.getElementById('Active').setAttribute("required", "")
+				document.getElementById('Inactive').style.display = 'inline-block';
+				document.getElementById('Inactive_Label').style.display = 'inline-block';
+				//document.getElementById('Inactive').setAttribute("required", "")
+				document.getElementById('User_ID').style.display = 'inline-block';
+				document.getElementById('User_ID').setAttribute("required", "")
+				document.getElementById('CurrentDept').style.display = 'none';
+				document.getElementById('CurrentDept').removeAttribute("required")
+				document.getElementById('NewDept').style.display = 'none';
+				document.getElementById('NewDept').removeAttribute("required")
+				document.getElementById('User_ID_Label').style.display = 'inline-block';
+				document.getElementById('CurrentDept_Label').style.display = 'none';
+				document.getElementById('NewDept_Label').style.display = 'none';
+				document.getElementById('Year_Label').style.display = 'inline-block';
+				document.getElementById('Year').style.display = 'inline-block';
+				document.getElementById('Quarter_Label').style.display = 'inline-block';
+				document.getElementById('Quarter').style.display = 'inline-block';
+			}
+
+			if(ddl == "Dept")
+			{
+				document.getElementById('Active').style.display = 'none';
+				document.getElementById('Active_Label').style.display = 'none';
+				//document.getElementById('Active').removeAttribute("required")
+				document.getElementById('Inactive').style.display = 'none';
+				document.getElementById('Inactive_Label').style.display = 'none';
+				//document.getElementById('Inactive').removeAttribute("required")
+				document.getElementById('User_ID').style.display = 'inline-block';
+				document.getElementById('User_ID').setAttribute("required", "")
+				document.getElementById('CurrentDept').style.display = 'inline-block';
+				document.getElementById('CurrentDept').setAttribute("required", "")
+				document.getElementById('NewDept').style.display = 'inline-block';
+				document.getElementById('NewDept').setAttribute("required", "")
+				document.getElementById('User_ID_Label').style.display = 'inline-block';
+				document.getElementById('CurrentDept_Label').style.display = 'inline-block';
+				document.getElementById('NewDept_Label').style.display = 'inline-block';
+				document.getElementById('Year_Label').style.display = 'inline-block';
+				document.getElementById('Year').style.display = 'inline-block';
+				document.getElementById('Year').setAttribute("required", "")
+				document.getElementById('Quarter_Label').style.display = 'inline-block';
+				document.getElementById('Quarter').style.display = 'inline-block';
+				document.getElementById('Quarter').setAttribute("required", "")
+			}
+
+			if(ddl == "Both")
+			{
+				document.getElementById('Active').style.display = 'inline-block';
+				document.getElementById('Active_Label').style.display = 'inline-block';
+				//document.getElementById('Active').setAttribute("required", "")
+				document.getElementById('Inactive').style.display = 'inline-block';
+				document.getElementById('Inactive_Label').style.display = 'inline-block';
+				//document.getElementById('Active').removeAttribute("required")
+				document.getElementById('User_ID').style.display = 'inline-block';
+				document.getElementById('User_ID').setAttribute("required", "")
+				document.getElementById('CurrentDept').style.display = 'inline-block';
+				document.getElementById('CurrentDept').setAttribute("required", "")
+				document.getElementById('NewDept').style.display = 'inline-block';
+				document.getElementById('NewDept').setAttribute("required", "")
+				document.getElementById('User_ID_Label').style.display = 'inline-block';
+				document.getElementById('CurrentDept_Label').style.display = 'inline-block';
+				document.getElementById('NewDept_Label').style.display = 'inline-block';
+				document.getElementById('Year_Label').style.display = 'inline-block';
+				document.getElementById('Year').style.display = 'inline-block';
+				document.getElementById('Year').setAttribute("required", "")
+				document.getElementById('Quarter_Label').style.display = 'inline-block';
+				document.getElementById('Quarter').style.display = 'inline-block';
+				document.getElementById('Quarter').setAttribute("required", "")
+			}
+
+		}
+	</script>
+
+</body>
+
+
+</html>

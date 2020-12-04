@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>{{ type }}</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='receipt.css') }}">
+</head>
+
+
+<body>	
+		<table class="center">
+			<caption>Receipt</caption>
+			<thead>
+        		<tr>
+					<th> </th>
+					<th> </th>
+					<th> </th>
+        		</tr>
+		    </thead>
+		    <tbody>
+			    <tr>
+					<td>Name: {{name}}</td>
+					<td>Department: {{dept}}</td>
+				    <td>Origin: {{origin}}</td>
+				</tr>
+				<tr>
+					<td>Room Number: {{room}}</td>
+					<td>Package: {{pack}}</td>
+				    <td>Price: {{price}}</td>
+				</tr>
+				<tr>
+					<td> </td>
+					<td>Date: {{date}}</td>
+				    <td>Cruise Quarter: {{quarter}}</td>
+				</tr>
+				<tr>
+					<td> </td>
+					<td> </td>
+				    <td>Username: {{user}}</td>
+				</tr>
+			</tbody>
+
+		</table>
+	<form action="returnOffshoreHome">
+		<br>
+		<br>
+		<input type = "submit" value = "Return to Homepage"/>
+	</form>
+</body>
+
+
+</html>
