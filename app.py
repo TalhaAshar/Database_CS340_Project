@@ -5,10 +5,10 @@ from json import dumps
 mysql = MySQL()
 app = Flask(__name__)
 
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = '@Kyogre11'
-app.config['MYSQL_DATABASE_DB'] = 'CSMS'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = 'b4cd8dd4fe5d0a'
+app.config['MYSQL_DATABASE_PASSWORD'] = '03233985'
+app.config['MYSQL_DATABASE_DB'] = 'heroku_8b24389f4313f76'
+app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-02.cleardb.com'
 mysql.init_app(app)
 
 @app.route("/")
@@ -2907,4 +2907,4 @@ def updateFreight():
 
 
 if __name__ == "__main__":
-    app.run(port=5502, debug=True)
+    app.run()
