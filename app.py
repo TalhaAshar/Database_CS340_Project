@@ -1665,7 +1665,7 @@ def crewmateSwap():
 			return render_template('crewmateError.html', error='The input crewmate does not have an Active Status in this Cruise.', username=UserID, dept=Dept)
 
 		if(UserID == SecondUser):
-			return render_template('crewmateError.html', error = 'You cannot swap with yourself.', username=userID, dept=Dept)
+			return render_template('crewmateError.html', error = 'You cannot swap with yourself.', username=UserID, dept=Dept)
 
 		sql = "select Room_ID from crewmate where (Login_ID = (%s) or Login_ID = (%s)) and Status = (%s) and ID like (%s)"
 		values = (UserID, SecondUser, '1', cruise + '___2')

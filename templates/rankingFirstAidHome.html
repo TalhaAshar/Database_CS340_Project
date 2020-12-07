@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Home</title>
-	<link rel="stylesheet" href="{{ url_for('static', filename='navigation3.css') }}">
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='navigation3.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='receipt.css') }}">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+  body { margin: 0; padding: 0; }
+  #map { position: absolute; top: 300px; bottom: 300px; left: 445px; right: 445px; height: 35%; width: 35%; }
+  </style>
 </head>
 <body onload="Calculate()">
     <nav>
@@ -31,53 +37,18 @@
               </form></li>
               </div>
             </ul>
-            <li><a href="#">Inventory Management</a>
-            <ul>
-              <div class="eight">
-              <li><form action="insertInventoryInter", method="POST">
-              <input type="hidden" id="userBook" name="userBook">
-              <input type="hidden" id="DeptBook" name="DeptBook">
-              <input type="submit" value="         Insert           ">
-              </form></li>
-              <li><form action="deleteInventoryInter", method="POST">
-              <input type="hidden" id="userDel" name="userDel">
-              <input type="hidden" id="DeptDel" name="DeptDel">
-              <input type="submit" value="         Delete           ">
-              </form></li>
-              <li><form action="updateInventoryInter", method="POST">
-              <input type="hidden" id="userUPG" name="userUPG">
-              <input type="hidden" id="DeptUPG" name="DeptUPG">
-              <input type="submit" value="         Update           ">
-              </form></li>
-              </div>
-            </ul>
-        <li><a href="#">Freight Management</a>
-            <ul>
-              <div class="eight">
-              <li><form action="insertFreightInter", method="POST">
-              <input type="hidden" id="userFBook" name="userFBook">
-              <input type="hidden" id="DeptFBook" name="DeptFBook">
-              <input type="submit" value="         Insert           ">
-              </form></li>
-              <li><form action="deleteFreightInter", method="POST">
-              <input type="hidden" id="userFDel" name="userFDel">
-              <input type="hidden" id="DeptFDel" name="DeptFDel">
-              <input type="submit" value="         Delete           ">
-              </form></li>
-              <li><form action="updateFreightInter", method="POST">
-              <input type="hidden" id="userFUPG" name="userFUPG">
-              <input type="hidden" id="DeptFUPG" name="DeptFUPG">
-              <input type="submit" value="         Update           ">
-              </form></li>
-              </div>
-            </ul>
+          <li><form action="routingJourneyInter", method="POST">
+          <input type="hidden" id="userMap" name="userMap">
+          <input type="hidden" id="DeptMap" name="DeptMap">
+          <input type="submit" value="         Routing         ">
+          </form></li>
         <li><a href="returnHome">Logout</a></li>
       </ul>
     </nav>
   <section>
     <br>
     <br><br>
-		<table class="center">
+    <table class="center">
       <caption>My Details</caption>
       <thead>
             <tr>
@@ -102,37 +73,41 @@
             <td>{{ status }}</td>
           </tr>
         </tbody>
-	</section>
+  </section>
   <script> 
     function Calculate(){
         var data = '{{ username }}';
         document.getElementById('userSwap').value = data;
-        document.getElementById('userBook').value = data;
-        document.getElementById('userFBook').value = data;
-        document.getElementById('userDel').value = data;
-        document.getElementById('userUPG').value = data;
-        document.getElementById('userFDel').value = data;
-        document.getElementById('userFUPG').value = data;
+        document.getElementById('userMap').value = data;
         var name = '{{ name }}';
         document.getElementById('NameSwap').value = name;
-
         var origin = '{{ origin }}';
         document.getElementById('OriginSwap').value = origin;
-
         var dept = '{{ dept }}';
         document.getElementById('DeptSwap').value = dept;
-        document.getElementById('DeptBook').value = dept;
-        document.getElementById('DeptFBook').value = dept;
-        document.getElementById('DeptDel').value = dept;
-        document.getElementById('DeptUPG').value = dept;
-        document.getElementById('DeptFDel').value = dept;
-        document.getElementById('DeptFUPG').value = dept;
+        document.getElementById('DeptMap').value = dept;
         var exp = '{{ exp }}';
         document.getElementById('ExpSwap').value = exp;
-
         var status = '{{ status }}';
         document.getElementById('StatusSwap').value = status;
     }
   </script>
+
+<div id="map"></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoibGFsYXRpbmFsYWxhdGluYSIsImEiOiJja2lleDFlbXUxeDRtMnhvNXB2ZWp6aDNhIn0.flWHP2I7X00YLCLd9Xn3WQ';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/streets-v11',
+center: [-96, 37.8],
+zoom: 3
+});
+ 
+map.addControl(
+new mapboxgl.GeolocateControl({
+positionOptions: { enableHighAccuracy: true }, trackUserLocation: true })
+);
+</script>
+
 </body>
 </html>
