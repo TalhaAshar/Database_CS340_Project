@@ -1841,7 +1841,7 @@ def returnCrewmateHome():
 		UserID = request.form['user']
 		Dept = request.form['dept']
 
-		sql = "select name, origin, Experience, status, Dept_Name, ID from crewmate where Login_ID = (%s) and ID like (%s)"
+		sql = "select ID, name, origin, Experience, status, Dept_Name from crewmate where Login_ID = (%s) and ID like (%s)"
 		values = (UserID, '203___2')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -1851,7 +1851,6 @@ def returnCrewmateHome():
 		Experience = result[0][3]
 		Status = result[0][4]
 		Dept_Name = result[0][5]
-		ID = result[0][6]
 
 	except Exception as e:
 		return render_template('crewmateError.html', error=e, username=UserID, dept = Dept)
@@ -3385,7 +3384,7 @@ def viewMenuCrewmate():
 	except Exception as e:
 		return render_template('crewmateError.html', error=e, username=UserID, dept=Dept)
 	return render_template('viewMenuPassenger.html', username=UserID, breakfast=breakfast, lunch=lunch, dinner=dinner, dept=Dept)
-'''
+
 
 if __name__ == "__main__":
     app.run()
