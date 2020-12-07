@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Insert Crewmate</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='offshoreswap.css') }}">
+</head>
+
+
+<body onload="Calculate()">
+	<div style="height:500px;width:300px;overflow:auto;" class="b">
+	<table class="center">
+			<caption>Breakfast</caption>
+			<thead>
+        		<tr>
+					<th>Item</th>
+        		</tr>
+		    </thead>
+		    <tbody>
+			    {% for item in breakfast %}
+			    <tr>
+			    	<td>{{ item }}</td>
+			    </tr>
+			    {% endfor %}
+			</tbody>
+
+		</table>
+</div>
+<div style="height:500px;width:300px;overflow:auto;" class="b">
+	<table class="center">
+			<caption>Lunch</caption>
+			<thead>
+        		<tr>
+					<th>Item</th>
+        		</tr>
+		    </thead>
+		    <tbody>
+			    {% for item in lunch %}
+			    <tr>
+			    	<td>{{ item }}</td>
+			    </tr>
+			    {% endfor %}
+			</tbody>
+
+		</table>
+</div>
+<div style="height:500px;width:300px;overflow:auto;" class="b">
+	<table class="center">
+			<caption>Dinner</caption>
+			<thead>
+        		<tr>
+					<th>Item</th>
+        		</tr>
+		    </thead>
+		    <tbody>
+			    {% for item in dinner %}
+			    <tr>
+			    	<td>{{ item }}</td>
+			    </tr>
+			    {% endfor %}
+			</tbody>
+
+		</table>
+</div>
+
+<form action="returnPassengerHome", method="POST">
+		<br>
+		<br>
+		<input type = "submit" value = "Return to Homepage"/>
+		<input type="hidden" id="user" name="user">
+</form>
+
+<script> 
+    function Calculate(){
+        var user = '{{ username }}'; 
+        document.getElementById('user').value = user;
+    }
+  </script>
+</body>
+
+
+</html>

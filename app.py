@@ -91,26 +91,58 @@ def verifiedLogin():
 			Status = result[0][4]
 			print(result)
 
+			sql = 'select count(*) from highest_ranking_officer where Crewmate_ID = %s'
+			values = ID
+			mycursor.execute(sql, values)
+			result = mycursor.fetchall()
+
 			mycursor.close()
 			mysqldb.close()
-			if(Dept_Name == 'Supplies'):
-				return render_template('crewmateInventoryHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
-			elif(Dept_Name == 'Administration'):
-				return render_template('crewmateAdminHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
-			elif(Dept_Name == 'Cleaning'):
-				return render_template('crewmateCleaningHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
-			elif(Dept_Name == 'Engine'):
-				return render_template('crewmateEngineHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
-			elif(Dept_Name == 'First Aid'):
-				return render_template('crewmateFirsAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
-			elif(Dept_Name == 'Kitchen'):
-				return render_template('crewmateKitchenHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
-			elif(Dept_Name == 'Security'):
-				return render_template('crewmateSecurityHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
-			elif(Dept_Name == 'Room Service'):
-				return render_template('crewmateRoomServiceHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			if(result[0][0] == 0):
+				if(Dept_Name == 'Supplies'):
+					return render_template('crewmateInventoryHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Administration'):
+					return render_template('crewmateAdminHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Cleaning'):
+					return render_template('crewmateCleaningHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Engine'):
+					return render_template('crewmateEngineHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'First Aid'):
+					return render_template('crewmateFirsAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Kitchen'):
+					return render_template('crewmateKitchenHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Security'):
+					return render_template('crewmateSecurityHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Room Service'):
+					return render_template('crewmateRoomServiceHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				else:
+					return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 			else:
-				return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				sql = 'select Officer_Rank, Designation from highest_ranking_officer where Crewmate_ID = %s'
+				values = ID
+				mycursor.execute(sql, values)
+				result = mycursor.fetchall()
+				Rank = result[0][0]
+				if(Dept_Name == 'Supplies'):
+					return render_template('rankingInventoryHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Administration'):
+					return render_template('rankingAdminHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Cleaning'):
+					return render_template('rankingCleaningHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Engine'):
+					return render_template('rankingEngineHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'First Aid'):
+					return render_template('rankingFirsAidHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Kitchen'):
+					return render_template('rankingKitchenHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Security'):
+					return render_template('rankingSecurityHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Room Service'):
+					return render_template('rankingRoomServiceHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Operations'):
+					return render_template('rankingOperationsHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+				elif(Dept_Name == 'Acitivities'):
+					return render_template('rankingActivitiesHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 		elif _UserType == 'Offshore_Management':
 			mycursor.close()
 			mysqldb.close()
@@ -1808,40 +1840,70 @@ def returnCrewmateHome():
 		UserID = request.form['user']
 		Dept = request.form['dept']
 
-		sql = "select name, origin, Experience, status from crewmate where Login_ID = (%s)"
+		sql = "select ID, name, origin, Experience, status, Dept_Name from crewmate where Login_ID = (%s)"
 		values = (UserID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
-		print(result)
-		Name = result[0][0]
-		Origin = result[0][1]
-		Experience = result[0][2]
-		Status = result[0][3]
+		ID = result[0][0]
+		Name = result[0][1]
+		Origin = result[0][2]
+		Experience = result[0][3]
+		Status = result[0][4]
+		Dept_Name = result[0][5]
 
 	except Exception as e:
 		return render_template('crewmateError.html', error=e, username=UserID, dept = Dept)
-	finally:
-		mycursor.close()
-		mysqldb.close()
-	if(Dept == 'Supplies'):
-			return render_template('crewmateInventoryHome.html', username=UserID, name=Name, origin=Origin, dept=Dept, exp=Experience, status=Status)
-	elif(Dept == 'Administration'):
-		return render_template('crewmateAdminHome.html', username=UserID, name=Name, origin=Origin, dept=Dept, exp=Experience, status=Status)
-	elif(Dept == 'Cleaning'):
-		return render_template('crewmateCleaningHome.html', username=UserID, name=Name, origin=Origin, dept=Dept, exp=Experience, status=Status)
-	elif(Dept == 'Engine'):
-		return render_template('crewmateEngineHome.html', username=UserID, name=Name, origin=Origin, dept=Dept, exp=Experience, status=Status)
-	elif(Dept == 'First Aid'):
-		return render_template('crewmateFirsAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept, exp=Experience, status=Status)
-	elif(Dept == 'Kitchen'):
-		return render_template('crewmateKitchenHome.html', username=UserID, name=Name, origin=Origin, dept=Dept, exp=Experience, status=Status)
-	elif(Dept == 'Security'):
-		return render_template('crewmateSecurityHome.html', username=UserID, name=Name, origin=Origin, dept=Dept, exp=Experience, status=Status)
-	elif(Dept == 'Room Service'):
-		return render_template('crewmateRoomServiceHome.html', username=UserID, name=Name, origin=Origin, dept=Dept, exp=Experience, status=Status)
 
-	return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept, exp=Experience, status=Status)
+	sql = 'select count(*) from highest_ranking_officer where Crewmate_ID = %s'
+	values = ID
+	mycursor.execute(sql, values)
+	result = mycursor.fetchall()
 
+	if(result[0][0] == 0):
+		if(Dept_Name == 'Supplies'):
+			return render_template('crewmateInventoryHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Administration'):
+			return render_template('crewmateAdminHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Cleaning'):
+			return render_template('crewmateCleaningHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Engine'):
+			return render_template('crewmateEngineHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'First Aid'):
+			return render_template('crewmateFirsAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Kitchen'):
+			return render_template('crewmateKitchenHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Security'):
+			return render_template('crewmateSecurityHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Room Service'):
+			return render_template('crewmateRoomServiceHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		else:
+			return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+	else:
+		sql = 'select Officer_Rank, Designation from highest_ranking_officer where Crewmate_ID = %s'
+		values = ID
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		Rank = result[0][0]
+		if(Dept_Name == 'Supplies'):
+			return render_template('rankingInventoryHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Administration'):
+			return render_template('rankingAdminHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Cleaning'):
+			return render_template('rankingCleaningHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Engine'):
+			return render_template('rankingEngineHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'First Aid'):
+			return render_template('rankingFirsAidHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Kitchen'):
+			return render_template('rankingKitchenHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Security'):
+			return render_template('rankingSecurityHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Room Service'):
+			return render_template('rankingRoomServiceHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Operations'):
+			return render_template('rankingOperationsHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+		elif(Dept_Name == 'Acitivities'):
+			return render_template('rankingActivitiesHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 
 @app.route('/complaintIntermediate', methods=['POST', 'GET'])
 def complaintIntermediate():
@@ -2904,6 +2966,423 @@ def updateFreight():
 		mycursor.close()
 		mysqldb.close()
 	return render_template('confirmCrew.html', result='Your Transaction has been Completed.', username=UserID, dept=UserDept)
+
+@app.route('/insertMenuScheduleInter', methods=['POST', 'GET'])
+def insertMenuScheduleInter():
+	try:
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		UserID = request.form['userMenuInsert']
+		Dept = request.form['DeptMenuInsert']
+
+		mycursor.execute("select Name from Menu order by Name asc")
+		result = mycursor.fetchall()
+
+		arr = []
+		for i in result:
+			arr.append(i[0])
+
+		mycursor.close()
+		mysqldb.close()
+
+	except Exception as e:
+		return render_template('crewmateError.html', error=e, username=UserID, dept=Dept)
+
+	return render_template('insertMenu.html', username=UserID, dept=Dept, food=arr)
+
+@app.route('/insertMenu', methods=['POST', 'GET'])
+def insertMenu():
+	try:
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		UserID = request.form['user']
+		Dept = request.form['dept']
+		Name = request.form['Name']
+
+		Monday = ''
+		if request.form.get('Monday'):
+			Monday = 'M'
+
+		Tuesday = ''
+		if request.form.get('Tuesday'):
+			Tuesday = 'T'
+
+		Wednesday = ''
+		if request.form.get('Wednesday'):
+			Wednesday = 'W'
+
+		Thursday = ''
+		if request.form.get('Thursday'):
+			Thursday = 'R'
+
+		Friday = ''
+		if request.form.get('Friday'):
+			Friday = 'F'
+
+		Saturday = ''
+		if request.form.get('Saturday'):
+			Saturday = 'S'
+
+		Sunday = ''
+		if request.form.get('Sunday'):
+			Sunday = 'U'
+		
+		Day = Monday +  Tuesday +  Wednesday +  Thursday +  Friday +  Saturday + Sunday
+		if Day == '':
+			return render_template('crewmateError.html', error='You did not select a Day.', username=UserID, dept=Dept)
+
+		Breakfast = 0
+		if request.form.get('Breakfast'):
+			Breakfast = 1
+
+		Lunch = 0
+		if request.form.get('Lunch'):
+			Lunch = 1
+
+		Dinner = 0
+		if request.form.get('Dinner'):
+			Dinner = 1
+
+		if Dinner == 0 and Lunch == 0 and Breakfast == 0:
+			return render_template('crewmateError.html', error='You did not select either Breakfast, Dinner, or Lunch.', username=UserID, dept=Dept)
+
+		mycursor.execute("select Name from Menu order by Name asc")
+		result = mycursor.fetchall()
+
+		arr = []
+		for i in result:
+			arr.append(i[0])
+
+		print(arr)
+
+		if Name in arr:
+			return render_template('crewmateError.html', error='Item already exists.', username=UserID, dept=Dept)
+
+		mycursor.execute("select count(*) from Menu")
+		result = mycursor.fetchall()
+
+		new_id = result[0][0] + 1
+
+		sql = "select ID from Crewmate where Login_ID = (%s) and Status = (%s) and ID like (%s)"
+		values = (UserID, '1', '203___2')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		print("here")
+		sql = "insert into Menu values (%s, %s, %s, %s, %s, %s, %s)"
+		values = (new_id, Name, Day, Breakfast, Lunch, Dinner, result[0][0])
+		mycursor.execute(sql, values)
+
+		mysqldb.commit()
+
+		mycursor.close()
+		mysqldb.close()
+
+	except Exception as e:
+		return render_template('crewmateError.html', error=e, username=UserID, dept=Dept)
+
+	return render_template('confirmCrew.html', result='Your Transaction has been Completed.', username=UserID, dept=Dept)
+
+@app.route('/updateMenuScheduleInter', methods=['POST', 'GET'])
+def updateMenuScheduleInter():
+	try:
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		UserID = request.form['userMenuUpdate']
+		Dept = request.form['DeptMenuUpdate']
+
+		mycursor.execute("select ID, Name, Day, Breakfast, Lunch, Dinner from Menu order by ID asc")
+		result = mycursor.fetchall()
+
+		arr = []
+		for i in result:
+			arr.append(i)
+
+		mycursor.close()
+		mysqldb.close()
+
+	except Exception as e:
+		return render_template('crewmateError.html', error=e, username=UserID, dept=Dept)
+
+	return render_template('updateMenu.html', username=UserID, dept=Dept, food=arr)
+
+@app.route('/updateMenu', methods=['POST', 'GET'])
+def updateMenu():
+	try:
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		UserID = request.form['user']
+		Dept = request.form['dept']
+		ID = request.form['ID']
+		Day = ''
+
+		Monday = ''
+		if request.form.get('Monday'):
+			Monday = 'M'
+
+		Tuesday = ''
+		if request.form.get('Tuesday'):
+			Tuesday = 'T'
+
+		Wednesday = ''
+		if request.form.get('Wednesday'):
+			Wednesday = 'W'
+
+		Thursday = ''
+		if request.form.get('Thursday'):
+			Thursday = 'R'
+
+		Friday = ''
+		if request.form.get('Friday'):
+			Friday = 'F'
+
+		Saturday = ''
+		if request.form.get('Saturday'):
+			Saturday = 'S'
+
+		Sunday = ''
+		if request.form.get('Sunday'):
+			Sunday = 'U'
+		
+		Day = Monday +  Tuesday +  Wednesday +  Thursday +  Friday +  Saturday + Sunday
+
+		if Day == '':
+			return render_template('crewmateError.html', error='You did not select a Day.', username=UserID, dept=Dept)
+
+
+		Breakfast = 0
+		if request.form.get('Breakfast'):
+			Breakfast = 1
+
+		Lunch = 0
+		if request.form.get('Lunch'):
+			Lunch = 1
+
+		Dinner = 0
+		if request.form.get('Dinner'):
+			Dinner = 1
+
+		if Dinner == 0 and Lunch == 0 and Breakfast == 0:
+			return render_template('crewmateError.html', error='You did not select either Breakfast, Dinner, or Lunch.', username=UserID, dept=Dept)
+
+		mycursor.execute('select count(*) from Menu')
+		result = mycursor.fetchall()
+
+		if result[0][0] < int(ID):
+			return render_template('crewmateError.html', error='Item does not exist.', username=UserID, dept=Dept)
+
+		print(result)
+		print("yosh")
+		sql = "update Menu set Day = (%s) where ID = (%s)"
+		values = (Day, ID)
+		mycursor.execute(sql, values)
+
+		sql = "update Menu set Breakfast = (%s) where ID = (%s)"
+		values = (Breakfast, ID)
+		mycursor.execute(sql,values)
+
+		sql = "update Menu set Dinner = (%s) where ID = (%s)"
+		values = (Dinner, ID)
+		mycursor.execute(sql, values)
+
+		sql = "update Menu set Lunch = (%s) where ID = (%s)"
+		values = (Lunch, ID)
+		mycursor.execute(sql, values)
+
+		mysqldb.commit()
+
+		mycursor.close()
+		mysqldb.close()
+
+	except Exception as e:
+		return render_template('crewmateError.html', error=e, username=UserID, dept=Dept)
+
+	return render_template('confirmCrew.html', result='Your Transaction has been Completed.', username=UserID, dept=Dept)
+
+@app.route('/routingJourneyInter', methods=['POST', 'GET'])
+def routingJourneyInter():
+	try:
+		UserID = request.form['userMap']
+		UserDept = request.form['DeptMap']
+
+	except Exception as e:
+		return render_template('crewmateError.html', error=e, username=UserID, dept=UserDept)
+
+	print(UserID, UserDept)
+	return render_template('routingJourney.html', username=UserID, dept=UserDept)
+
+@app.route('/routingJourney', methods=['POST', 'GET'])
+def routingJourney():
+	try:
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		UserID = request.form['user']
+		UserDept = request.form['dept']
+		Start = request.form['Departure']
+		End = request.form['Arrival']
+
+		sql = 'select count(*) from Location where Name = %s'
+		values = Start
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		if(result[0][0] == 0):
+			return render_template('crewmateError.html', error='The departure country entered either does not exist or is land-locked.', username=UserID, dept=UserDept)
+
+		sql = 'select count(*) from Location where Name = %s'
+		values = End
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		if(result[0][0] == 0):
+			return render_template('crewmateError.html', error='The arrival country entered either does not exist or is land-locked.', username=UserID, dept=UserDept)
+
+		sql = 'select latitude, longitude from Location where Name = %s or Name = %s'
+		values = (Start, End)
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		DepartLat = result[0][0]
+		DepartLon = result[0][1]
+		ArriveLat = result[1][0]
+		ArriveLon = result[1][1]
+
+		Distance = int(math.sqrt(pow(ArriveLon - DepartLon, 2) + pow(ArriveLat - DepartLat, 2)))
+
+		sql = 'insert into Route values (%s, %s, %s)'
+		values = (Start, End, Distance)
+		mycursor.execute(sql, values)
+		mysqldb.commit()
+
+	except Exception as e:
+		return render_template('crewmateError.html', error=e, username=UserID, dept=UserDept)
+
+	finally:
+		mycursor.close()
+		mysqldb.close()
+	return render_template('confirmCrew.html', result = 'Transaction completed.', username=UserID, dept=UserDept)
+
+@app.route('/viewMenuInter', methods=['POST', 'GET'])
+def viewMenuInter():
+	if request.form['userCategory'] == '1':
+		UserID = request.form['userMenu']
+		return render_template('viewMenuPassengerInter.html', username=UserID)
+	else:
+		UserID = request.form['userMenu']
+		Dept = request.form['deptMenu']
+		return render_template('viewMenuCrewmateInter.html')
+
+@app.route('/viewMenuPassenger',methods=['POST', 'GET'])
+def viewMenuPassenger():
+	try:
+		UserID = request.form['user']
+		Day = request.form['Day']
+
+		if Day == 'Monday':
+			Day = 'M'
+		elif Day == 'Tuesday':
+			Day = 'T'
+		elif Day == 'Wednesday':
+			Day = 'W'
+		elif Day == 'Thursday':
+			Day = 'R'
+		elif Day == 'Friday':
+			Day = 'F'
+		elif Day == 'Saturday':
+			Day = 'S'
+		else:
+			Day = 'U'
+
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		sql = "select Name from Menu where Day like (%s) and Breakfast = (%s) order by Name asc"
+		values = ('%'+Day+'%', '1')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		breakfast = []
+
+		for i in result:
+			breakfast.append(i[0])
+
+		sql = "select Name from Menu where Day like (%s) and Lunch = (%s) order by Name asc"
+		values = ('%'+Day+'%', '1')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		lunch = []
+
+		for i in result:
+			lunch.append(i[0])
+
+		sql = "select Name from Menu where Day like (%s) and Dinner = (%s) order by Name asc"
+		values = ('%'+Day+'%', '1')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		dinner = []
+
+		for i in result:
+			dinner.append(i[0])
+
+	except Exception as e:
+		return render_template('passengerError.html', error=e, username=UserID)
+	return render_template('viewMenuPassenger.html', username=UserID, breakfast=breakfast, lunch=lunch, dinner=dinner)
+
+@app.route('/viewMenuCrewmate',methods=['POST', 'GET'])
+def viewMenuCrewmate():
+	try:
+		UserID = request.form['user']
+		Dept = request.form['dept']
+		Day = request.form['Day']
+
+		if Day == 'Monday':
+			Day = 'M'
+		elif Day == 'Tuesday':
+			Day = 'T'
+		elif Day == 'Wednesday':
+			Day = 'W'
+		elif Day == 'Thursday':
+			Day = 'R'
+		elif Day == 'Friday':
+			Day = 'F'
+		elif Day == 'Saturday':
+			Day = 'S'
+		else:
+			Day = 'U'
+
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		sql = "select Name from Menu where Day like (%s) and Breakfast = (%s) order by Name asc"
+		values = ('%'+Day+'%', '1')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		breakfast = []
+
+		for i in result:
+			breakfast.append(i[0])
+
+		sql = "select Name from Menu where Day like (%s) and Lunch = (%s) order by Name asc"
+		values = ('%'+Day+'%', '1')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		lunch = []
+
+		for i in result:
+			lunch.append(i[0])
+
+		sql = "select Name from Menu where Day like (%s) and Dinner = (%s) order by Name asc"
+		values = ('%'+Day+'%', '1')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		dinner = []
+
+		for i in result:
+			dinner.append(i[0])
+
+	except Exception as e:
+		return render_template('crewmateError.html', error=e, username=UserID, dept=Dept)
+	return render_template('viewMenuPassenger.html', username=UserID, breakfast=breakfast, lunch=lunch, dinner=dinner, dept=Dept)
 
 
 if __name__ == "__main__":

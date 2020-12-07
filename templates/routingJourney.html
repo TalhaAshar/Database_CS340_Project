@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Routing</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='navigation3.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='receipt.css') }}">
+</head>
+
+<iframe src="https://www.google.com/maps/d/embed?mid=1Rn1rAeDtKL1o2DDJVh4zOrpUSqJ-v-P9" width="1280" height="480"></iframe>
+
+<body onload="Calculate()">
+  <form action="routingJourney", method="POST">
+  <fieldset>
+    <legend>Enter The Two Locations You Want To Set As A Route:</legend>
+
+    <label for="Departure">Departure:</label>
+    <input type="text" name="Departure" id="Departure" required><br>
+
+    <label for="Arrival">Arrival:</label>
+    <input type="text" name="Arrival" id="Arrival" required><br>
+
+    <input type="hidden" id="user" name="user">
+    <input type="hidden" id="dept" name="dept">
+    <input type="submit" value="Submit">
+  </fieldset>
+  </form>
+  <script> 
+    function Calculate(){
+        var data = '{{ username }}'; 
+        document.getElementById('user').value = data;
+        var dept = '{{ dept }}';
+        document.getElementById('dept').value = dept;
+        console.log(getElementById('user').value);
+        console.log(getElementById('dept').value);
+    }
+  </script>
+</body>
+
+
+</html>

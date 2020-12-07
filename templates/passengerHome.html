@@ -131,6 +131,13 @@
             </form></li>
           </ul>
         </li>
+        <li>
+          <form action="viewMenuInter", method="POST">
+              <input type="hidden" id="userMenu" name="userMenu">
+              <input type="hidden" id="userCategory" name="userCategory">
+              <input type="submit" value="         Menu         ">
+            </form>
+        </li>
         <li><a href="returnHome">Logout</a></li>
       </ul>
     </nav>
@@ -199,6 +206,8 @@ window.onclick = function(event) {
         document.getElementById('userView').value = data;
         document.getElementById('userComplain').value = data;
         document.getElementById('userService').value = data;
+        document.getElementById('userMenu').value = data;
+        document.getElementById('userCategory').value = '1';
         var cnic = '{{ CNIC }}';
         document.getElementById('CNICBook').value = cnic;
         document.getElementById('CNICDel').value = cnic;

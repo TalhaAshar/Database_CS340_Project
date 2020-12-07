@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Booking</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='generic3.css') }}">
+</head>
+
+
+<body onload="Calculate()">
+	<form action="viewMenuPassenger", method="POST">
+	<fieldset>
+		<legend>Enter Information</legend>
+
+  		<label for="Day">Day:</label>
+		<input type="text" name="Day" id="Day" pattern="^Monday$|^Tuesday$|^Wednesday$|^Thursday$|^Friday$|^Saturday$|^Sunday$" required> <br/><br/><br><br>
+
+		<input type="hidden" id="user" name="user">
+  		<input type="submit" value="Submit">
+	</fieldset>
+	</form>
+
+	<script> 
+		function Calculate(){
+		    var data = '{{ username }}'; 
+		    document.getElementById('user').value = data;
+		}
+	</script>
+</body>
+
+
+</html>

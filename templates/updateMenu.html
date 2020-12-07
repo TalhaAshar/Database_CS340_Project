@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Update Menu Item</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='offshoreswap.css') }}">
+</head>
+
+
+<body onload="Calculate()">
+	<form action="updateMenu", method="POST">
+	<fieldset>
+		<legend>Enter Item Information</legend>
+		<label for="ID">ID:</label>
+		<input type="number" name="ID" id="ID" required min="0"> <br/>
+
+		<label for="Day">Day:</label>
+		<label for="Monday">Monday</label>
+    	<input type="checkbox" id="Monday" name="Tuesday" value="1">
+
+    	<label for="Tuesday">Tuesday</label>
+    	<input type="checkbox" id="Tuesday" name="Tuesday" value="1">
+
+    	<label for="Wednesday">Wednesday</label>
+    	<input type="checkbox" id="Wednesday" name="Wednesday" value="1">
+
+    	<label for="Thursday">Thursday</label>
+    	<input type="checkbox" id="Thursday" name="Thursday" value="1">
+
+    	<label for="Friday">Friday</label>
+    	<input type="checkbox" id="Friday" name="Friday" value="1">
+
+    	<label for="Saturday">Saturday</label>
+    	<input type="checkbox" id="Saturday" name="Saturday" value="1">
+
+    	<label for="Sunday">Sunday</label>
+    	<input type="checkbox" id="Sunday" name="Sunday" value="1"><br>
+		
+		<label for="Breakfast">Breakfast</label>
+    	<input type="checkbox" id="Breakfast" name="Breakfast" value="1"><br>
+
+    	<label for="Lunch">Lunch</label>
+    	<input type="checkbox" id="Lunch" name="Lunch" value="1"><br>
+
+    	<label for="Dinner">Dinner</label>
+    	<input type="checkbox" id="Dinner" name="Dinner" value="1"><br>
+
+		<input type="hidden" id="user" name="user">
+        <input type="hidden" id="dept" name="dept">
+
+  		<input type="submit" value="Submit">
+	</fieldset>
+	</form>
+
+	<div style="height:500px;width:300px;overflow:auto;" class="b">
+	<table class="center">
+			<caption>Current Items</caption>
+			<thead>
+        		<tr>
+					<th>ID</th>
+                    <th>Name</th>
+                    <th>Day</th>
+                    <th>Breakfast</th>
+                    <th>Lunch</th>
+                    <th>Dinner</th>
+        		</tr>
+		    </thead>
+		    <tbody>
+			    {% for item in food %}
+			    <tr>
+			    	<td>{{ item[0] }}</td>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>{{ item[3] }}</td>
+                    <td>{{ item[4] }}</td>
+                    <td>{{ item[5] }}</td>
+			    </tr>
+			    {% endfor %}
+			</tbody>
+
+		</table>
+</div>
+
+<script> 
+    function Calculate(){
+        var user = '{{ username }}'; 
+        document.getElementById('user').value = user;
+
+        var dept = '{{ dept }}';
+        document.getElementById('dept').value = dept;
+
+        console.log(document.getElementById('user').value)
+        console.log(document.getElementById('dept').value)
+    }
+  </script>
+</body>
+
+
+</html>
