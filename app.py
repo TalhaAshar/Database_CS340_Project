@@ -1729,7 +1729,7 @@ def offshoreSwapInter():
 
 	except Exception as e:
 		return render_template('offshoreError.html', error=e)
-
+	print("here")
 	return render_template('OffshoreSwap.html', user=UserID, second=SecondUser, cruise=cruise, result=arr)
 
 @app.route('/offshoreSwap', methods=['POST', 'GET'])
