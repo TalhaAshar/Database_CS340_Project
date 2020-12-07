@@ -3262,7 +3262,7 @@ def routingJourney():
 		mycursor.close()
 		mysqldb.close()
 	return render_template('confirmCrew.html', result = 'Transaction completed.', username=UserID, dept=UserDept)
-
+'''
 @app.route('/viewMenuInter', methods=['POST', 'GET'])
 def viewMenuInter():
 	if request.form['userCategory'] == '1':
@@ -3383,7 +3383,7 @@ def viewMenuCrewmate():
 	except Exception as e:
 		return render_template('crewmateError.html', error=e, username=UserID, dept=Dept)
 	return render_template('viewMenuPassenger.html', username=UserID, breakfast=breakfast, lunch=lunch, dinner=dinner, dept=Dept)
-
+'''
 
 if __name__ == "__main__":
     app.run()
