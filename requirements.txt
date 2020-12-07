@@ -1,16 +1,4 @@
-argon2-cffi==20.1.0
-async-generator==1.10
-attrs==20.2.0
-backcall==0.2.0
-bleach==3.2.1
-cffi==1.14.3
-click==7.1.2
-colorama==0.4.3
-cryptography==3.2.1
-cycler==0.10.0
-decorator==4.4.2
-defusedxml==0.6.0
-entrypoints==0.3
+gunicorn
 Flask==1.1.2
 Flask-MySQL==1.5.1
 jedi==0.17.2
