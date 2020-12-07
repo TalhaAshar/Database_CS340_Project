@@ -74,7 +74,7 @@ def verifiedLogin():
 			return render_template('passengerHome.html', username=UserID, CNIC=CNIC, name=Name, age=Age, disability=Disability, promo=Promo, flag=flag)
 		#return render_template('passengerBooking.html', username=UserID, CNIC=CNIC, name=Name, age=Age, disability=Disability, promo=Promo)
 		elif _UserType == 'Crewmate':
-			sql = "select name, origin, dept_name, Experience, status from crewmate where Login_ID = (%s) and ID like (%s)"
+			sql = "select name, origin, dept_name, Experience, status, ID from crewmate where Login_ID = (%s) and ID like (%s)"
 			values = (UserID, '203___2')
 			mycursor.execute(sql, values)
 			result = mycursor.fetchall()
@@ -89,10 +89,11 @@ def verifiedLogin():
 			Dept_Name = result[0][2]
 			Experience = result[0][3]
 			Status = result[0][4]
+			ID = result[0][5]
 			print(result)
 
-			sql = 'select count(*) from highest_ranking_officer where Login_ID = (%s)'
-			values = UserID
+			sql = 'select count(*) from highest_ranking_officer where Crewmate_ID = (%s)'
+			values = ID
 			mycursor.execute(sql, values)
 			result = mycursor.fetchall()
 
@@ -118,8 +119,8 @@ def verifiedLogin():
 				else:
 					return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 			else:
-				sql = 'select Officer_Rank, Designation from highest_ranking_officer where Login_ID = (%s)'
-				values = UserID
+				sql = 'select Officer_Rank, Designation from highest_ranking_officer where Crewmate_ID = (%s)'
+				values = ID
 				mycursor.execute(sql, values)
 				result = mycursor.fetchall()
 				Rank = result[0][0]
@@ -1840,8 +1841,8 @@ def returnCrewmateHome():
 		UserID = request.form['user']
 		Dept = request.form['dept']
 
-		sql = "select ID, name, origin, Experience, status, Dept_Name from crewmate where Login_ID = (%s)"
-		values = (UserID)
+		sql = "select name, origin, Experience, status, Dept_Name, ID from crewmate where Login_ID = (%s) and ID like (%s)"
+		values = (UserID, '203___2')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		ID = result[0][0]
@@ -1850,12 +1851,13 @@ def returnCrewmateHome():
 		Experience = result[0][3]
 		Status = result[0][4]
 		Dept_Name = result[0][5]
+		ID = result[0][6]
 
 	except Exception as e:
 		return render_template('crewmateError.html', error=e, username=UserID, dept = Dept)
 
 	sql = 'select count(*) from highest_ranking_officer where Crewmate_ID = (%s)'
-	values = UserID
+	values = ID
 	mycursor.execute(sql, values)
 	result = mycursor.fetchall()
 
@@ -1880,7 +1882,7 @@ def returnCrewmateHome():
 			return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 	else:
 		sql = 'select Officer_Rank, Designation from highest_ranking_officer where Crewmate_ID = (%s)'
-		values = UserID
+		values = ID
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		Rank = result[0][0]
@@ -3383,7 +3385,7 @@ def viewMenuCrewmate():
 	except Exception as e:
 		return render_template('crewmateError.html', error=e, username=UserID, dept=Dept)
 	return render_template('viewMenuPassenger.html', username=UserID, breakfast=breakfast, lunch=lunch, dinner=dinner, dept=Dept)
-
+'''
 
 if __name__ == "__main__":
     app.run()
