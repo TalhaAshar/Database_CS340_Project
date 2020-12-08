@@ -3310,7 +3310,7 @@ def viewMenuInter():
 	else:
 		UserID = request.form['userMenu']
 		Dept = request.form['DeptMenu']
-		return render_template('viewMenuCrewmateInter.html')
+		return render_template('viewMenuCrewmateInter.html', username=UserID, dept=Dept)
 
 @app.route('/viewMenuPassenger',methods=['POST', 'GET'])
 def viewMenuPassenger():
