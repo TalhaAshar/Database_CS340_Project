@@ -1,6 +1,7 @@
 from flask import Flask, render_template, json, request
 from flaskext.mysql import MySQL
 from json import dumps
+import math
 
 mysql = MySQL()
 app = Flask(__name__)
