@@ -43,6 +43,10 @@ def verifiedLogin():
 		if not result:
 			return render_template('error.html', error='The given username and password do not match for your type of account')
 		if(_UserType == 'Passenger'):
+
+			if(temp.get('offshore') or (temp.get('crewmate'))):
+				return render_template('error.html', error='Please select a single type of account.')
+
 			sql = "select Name, Age, CNIC, Disability, Promotional_Consent from Passenger where Login_ID = (%s) order by ID desc"
 			values = (UserID)
 			mycursor.execute(sql, values)
@@ -74,6 +78,9 @@ def verifiedLogin():
 			return render_template('passengerHome.html', username=UserID, CNIC=CNIC, name=Name, age=Age, disability=Disability, promo=Promo, flag=flag)
 		#return render_template('passengerBooking.html', username=UserID, CNIC=CNIC, name=Name, age=Age, disability=Disability, promo=Promo)
 		elif _UserType == 'Crewmate':
+			if(temp.get('offshore') or (temp.get('passenger'))):
+				return render_template('error.html', error='Please select a single type of account.')
+
 			sql = "select name, origin, dept_name, Experience, status, ID from crewmate where Login_ID = (%s) and ID like (%s)"
 			values = (UserID, '203___2')
 			mycursor.execute(sql, values)
@@ -109,7 +116,7 @@ def verifiedLogin():
 				elif(Dept_Name == 'Engine'):
 					return render_template('crewmateEngineHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 				elif(Dept_Name == 'First Aid'):
-					return render_template('crewmateFirsAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('crewmateFirstAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 				elif(Dept_Name == 'Kitchen'):
 					return render_template('crewmateKitchenHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 				elif(Dept_Name == 'Security'):
@@ -145,8 +152,13 @@ def verifiedLogin():
 				elif(Dept_Name == 'Acitivities'):
 					return render_template('rankingActivitiesHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 		elif _UserType == 'Offshore_Management':
+
 			mycursor.close()
 			mysqldb.close()
+
+			if(temp.get('passenger') or (temp.get('crewmate'))):
+				return render_template('error.html', error='Please select a single type of account.')
+
 			return render_template('offshoreHome.html', username=UserID)
 		
 	except Exception as e:
@@ -1870,7 +1882,7 @@ def returnCrewmateHome():
 		elif(Dept_Name == 'Engine'):
 			return render_template('crewmateEngineHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 		elif(Dept_Name == 'First Aid'):
-			return render_template('crewmateFirsAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('crewmateFirstAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 		elif(Dept_Name == 'Kitchen'):
 			return render_template('crewmateKitchenHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 		elif(Dept_Name == 'Security'):
