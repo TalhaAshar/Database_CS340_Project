@@ -104,9 +104,9 @@ def verifiedLogin():
 			mycursor.execute(sql, values)
 			result = mycursor.fetchall()
 
-			mycursor.close()
-			mysqldb.close()
 			if(result[0][0] == 0):
+				mycursor.close()
+				mysqldb.close()
 				if(Dept_Name == 'Supplies'):
 					return render_template('crewmateInventoryHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 				elif(Dept_Name == 'Administration'):
@@ -131,6 +131,8 @@ def verifiedLogin():
 				mycursor.execute(sql, values)
 				result = mycursor.fetchall()
 				Rank = result[0][0]
+				mycursor.close()
+				mysqldb.close()
 				if(Dept_Name == 'Supplies'):
 					return render_template('rankingInventoryHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 				elif(Dept_Name == 'Administration'):
