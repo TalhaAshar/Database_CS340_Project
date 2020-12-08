@@ -142,7 +142,7 @@ def verifiedLogin():
 				elif(Dept_Name == 'Engine'):
 					return render_template('rankingEngineHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 				elif(Dept_Name == 'First Aid'):
-					return render_template('rankingFirsAidHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingFirstAidHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 				elif(Dept_Name == 'Kitchen'):
 					return render_template('rankingKitchenHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 				elif(Dept_Name == 'Security'):
@@ -1930,7 +1930,7 @@ def returnCrewmateHome():
 		elif(Dept_Name == 'Engine'):
 			return render_template('rankingEngineHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 		elif(Dept_Name == 'First Aid'):
-			return render_template('rankingFirsAidHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingFirstAidHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 		elif(Dept_Name == 'Kitchen'):
 			return render_template('rankingKitchenHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
 		elif(Dept_Name == 'Security'):
