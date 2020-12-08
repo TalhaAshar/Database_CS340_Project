@@ -1122,6 +1122,17 @@ def committingCrewmate_Login():
 		values = (new_id, Name, Room, Origin, Department, Experience, Active, Username)
 		mycursor.execute(sql, values)
 		print(values)
+
+		temp = request.form
+		Officer = 0
+		if temp.get('Officer'):
+			mycursor.execute('select count(*) from highest_ranking_officer')
+			result = mycursor.fetchall()
+			rank = result[0][0] + 1
+			sql = 'insert into highest_ranking_officer values (%s, %s, %s)'
+			values = (rank, new_id, Department)
+			mycursor.execute(sql, values)
+
 		mysqldb.commit()
 
 		package = 'Crewmate'
@@ -1272,6 +1283,17 @@ def committingCrewmate_LoginExisting():
 		values = (new_id, Name, Room, Origin, Department, Experience, Active, Username)
 		mycursor.execute(sql, values)
 		print(values)
+
+		temp = request.form
+		Officer = 0
+		if temp.get('Officer'):
+			mycursor.execute('select count(*) from highest_ranking_officer')
+			result = mycursor.fetchall()
+			rank = result[0][0] + 1
+			sql = 'insert into highest_ranking_officer values (%s, %s, %s)'
+			values = (rank, new_id, Department)
+			mycursor.execute(sql, values)
+
 		mysqldb.commit()
 
 		package = 'Crewmate'
