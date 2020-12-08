@@ -47,6 +47,14 @@
               </form></li>
               </div>
             </ul>
+        <li>
+          <form action="viewMenuInter", method="POST">
+              <input type="hidden" id="userMenu" name="userMenu">
+              <input type="hidden" id="DeptMenu" name="DeptMenu">
+              <input type="hidden" id="userCategory" name="userCategory">
+              <input type="submit" value="         Menu         ">
+            </form>
+        </li>
         <li><a href="returnHome">Logout</a></li>
       </ul>
     </nav>
@@ -84,6 +92,8 @@
         document.getElementById('userBook').value = data;
         document.getElementById('userDel').value = data;
         document.getElementById('userUPG').value = data;
+        document.getElementById('userMenu').value = data;
+        document.getElementById('userCategory').value = '0';
         var name = '{{ name }}';
         document.getElementById('NameSwap').value = name;
 
@@ -95,6 +105,7 @@
         document.getElementById('DeptBook').value = dept;
         document.getElementById('DeptDel').value = dept;
         document.getElementById('DeptUPG').value = dept;
+        document.getElementById('DeptMenu').value = dept;
         var exp = '{{ exp }}';
         document.getElementById('ExpSwap').value = exp;
 

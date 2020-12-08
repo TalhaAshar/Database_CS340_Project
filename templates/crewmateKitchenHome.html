@@ -60,6 +60,14 @@
               <input type="hidden" id="DeptMenuUpdate" name="DeptMenuUpdate">
               <input type="submit" value="         Update           ">
               </form></li>
+              <li>
+              <form action="viewMenuInter", method="POST">
+              <input type="hidden" id="userMenu" name="userMenu">
+              <input type="hidden" id="DeptMenu" name="DeptMenu">
+              <input type="hidden" id="userCategory" name="userCategory">
+              <input type="submit" value="         View         ">
+            </form>
+        </li>
               </div>
             </ul>
 
@@ -102,6 +110,8 @@
         document.getElementById('userUPG').value = data;
         document.getElementById('userMenuInsert').value = data;
         document.getElementById('userMenuUpdate').value = data;
+        document.getElementById('userMenu').value = data;
+        document.getElementById('userCategory').value = '0';
         var name = '{{ name }}';
         document.getElementById('NameSwap').value = name;
 
@@ -115,6 +125,7 @@
         document.getElementById('DeptUPG').value = dept;
         document.getElementById('DeptMenuInsert').value = dept;
         document.getElementById('DeptMenuUpdate').value = dept;
+        document.getElementById('DeptMenu').value = dept;
         var exp = '{{ exp }}';
         document.getElementById('ExpSwap').value = exp;
 

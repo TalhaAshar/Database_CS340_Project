@@ -3014,7 +3014,7 @@ def insertMenuScheduleInter():
 		UserID = request.form['userMenuInsert']
 		Dept = request.form['DeptMenuInsert']
 
-		mycursor.execute("select Name from Menu order by Name asc")
+		mycursor.execute("select distinct Name from Menu order by Name asc")
 		result = mycursor.fetchall()
 
 		arr = []
@@ -3277,6 +3277,7 @@ def routingJourney():
 		if(result[0][0] == 0):
 			return render_template('crewmateError.html', error='The arrival country entered either does not exist or is land-locked.', username=UserID, dept=UserDept)
 
+
 		sql = 'select latitude, longitude from Location where Name = %s or Name = %s'
 		values = (Start, End)
 		mycursor.execute(sql, values)
@@ -3308,7 +3309,7 @@ def viewMenuInter():
 		return render_template('viewMenuPassengerInter.html', username=UserID)
 	else:
 		UserID = request.form['userMenu']
-		Dept = request.form['deptMenu']
+		Dept = request.form['DeptMenu']
 		return render_template('viewMenuCrewmateInter.html')
 
 @app.route('/viewMenuPassenger',methods=['POST', 'GET'])
@@ -3420,8 +3421,15 @@ def viewMenuCrewmate():
 
 	except Exception as e:
 		return render_template('crewmateError.html', error=e, username=UserID, dept=Dept)
-	return render_template('viewMenuPassenger.html', username=UserID, breakfast=breakfast, lunch=lunch, dinner=dinner, dept=Dept)
+	return render_template('viewMenuCrewmate.html', username=UserID, breakfast=breakfast, lunch=lunch, dinner=dinner, dept=Dept)
 
+@app.route('/scheduleFacilityInter', methods=['POST','GET'])
+def scheduleFacilityInter():
+	try:
+		UserID = request.form['userFacility']
+	except Exception as e:
+		return render_template('crewmateError.html', error=e, username=UserID)
+	return render_template('passengerFacilityBookInter', username=UserID)
 
 if __name__ == "__main__":
     app.run()

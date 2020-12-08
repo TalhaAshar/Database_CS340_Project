@@ -27,6 +27,14 @@
               <input type="submit" value="          Swap         ">
             </form>
         </li>
+        <li>
+          <form action="viewMenuInter", method="POST">
+              <input type="hidden" id="userMenu" name="userMenu">
+              <input type="hidden" id="DeptMenu" name="DeptMenu">
+              <input type="hidden" id="userCategory" name="userCategory">
+              <input type="submit" value="         Menu         ">
+            </form>
+        </li>
         <!--Add in the use cases here.-->
         <li><a href="returnHome">Logout</a></li>
       </ul>
@@ -62,6 +70,8 @@
     function Calculate(){
         var data = '{{ username }}';
         document.getElementById('userSwap').value = data;
+        document.getElementById('userMenu').value = data;
+        document.getElementById('userCategory').value = '0';
         //document.getElementById('userDel').value = data;
         //document.getElementById('userUPG').value = data;
         //document.getElementById('userView').value = data;
@@ -76,6 +86,7 @@
         //document.getElementById('OriginUPG').value = origin;
         var dept = '{{ dept }}';
         document.getElementById('DeptSwap').value = dept;
+        document.getElementById('DeptMenu').value = dept;
         //document.getElementById('DeptDel').value = dept;
         //document.getElementById('DeptUPG').value = dept;
         var exp = '{{ exp }}';
