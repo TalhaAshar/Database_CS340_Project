@@ -3336,7 +3336,7 @@ def viewMenuPassenger():
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
 
-		sql = "select Name from Menu where Day like (%s) and Breakfast = (%s) order by Name asc"
+		sql = "select distinct Name from Menu where Day like (%s) and Breakfast = (%s) order by Name asc"
 		values = ('%'+Day+'%', '1')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -3345,7 +3345,7 @@ def viewMenuPassenger():
 		for i in result:
 			breakfast.append(i[0])
 
-		sql = "select Name from Menu where Day like (%s) and Lunch = (%s) order by Name asc"
+		sql = "select distinct Name from Menu where Day like (%s) and Lunch = (%s) order by Name asc"
 		values = ('%'+Day+'%', '1')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -3354,7 +3354,7 @@ def viewMenuPassenger():
 		for i in result:
 			lunch.append(i[0])
 
-		sql = "select Name from Menu where Day like (%s) and Dinner = (%s) order by Name asc"
+		sql = "select distinct Name from Menu where Day like (%s) and Dinner = (%s) order by Name asc"
 		values = ('%'+Day+'%', '1')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -3374,6 +3374,8 @@ def viewMenuCrewmate():
 		Dept = request.form['dept']
 		Day = request.form['Day']
 
+		print(UserID, Dept)
+
 		if Day == 'Monday':
 			Day = 'M'
 		elif Day == 'Tuesday':
@@ -3392,7 +3394,7 @@ def viewMenuCrewmate():
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
 
-		sql = "select Name from Menu where Day like (%s) and Breakfast = (%s) order by Name asc"
+		sql = "select distinct Name from Menu where Day like (%s) and Breakfast = (%s) order by Name asc"
 		values = ('%'+Day+'%', '1')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -3401,7 +3403,7 @@ def viewMenuCrewmate():
 		for i in result:
 			breakfast.append(i[0])
 
-		sql = "select Name from Menu where Day like (%s) and Lunch = (%s) order by Name asc"
+		sql = "select distinct Name from Menu where Day like (%s) and Lunch = (%s) order by Name asc"
 		values = ('%'+Day+'%', '1')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -3410,7 +3412,7 @@ def viewMenuCrewmate():
 		for i in result:
 			lunch.append(i[0])
 
-		sql = "select Name from Menu where Day like (%s) and Dinner = (%s) order by Name asc"
+		sql = "select distinct Name from Menu where Day like (%s) and Dinner = (%s) order by Name asc"
 		values = ('%'+Day+'%', '1')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
