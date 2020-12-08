@@ -1,24 +1,17 @@
-body {
-  background-image: url('grey.jpg');
-  background-repeat: no-repeat;
-  background-size: cover; 
-}
-
-
 /*Set the table color, border, and spacing...*/
 table.cal{
 	color:#06425C;
 	border-spacing: 0;
-	border: 3px solid black;
+	border: 3px yellow;
 	-webkit-border-radius: 25px 25px 0 0;
 	border-radius: 0 0 25px 25px;
 }
 /*Alternate colors between even and odd weeks*/
-tr:nth-child(odd) {
-	background: #F2F2F2;
+tr:nth-child() {
+	background: #222222;
 }
-tr:nth-child(even) {
-	background: #CDBB79;
+tr:nth-child() {
+	background: #222222;
 }
 
 /*To curve the bottom, we need to curve the
@@ -58,7 +51,7 @@ Use border-radius for just some corners*/
 /*Format the table headings*/
 th{
 	text-align: center;
-	background: #FFFFFF;
+	background: grey;
 }
 
 /*Set the size and alignment for elements*/
@@ -108,20 +101,137 @@ form{
 }
 
 table, th, td {
-  border: 1px solid black;
   border-collapse: collapse;
+  border-bottom: 3px solid yellow;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
 }
 
 table.center {
   margin-left: auto; 
   margin-right: auto;
+  border: 3px yellow;
 }
 
 tbody{
   text-align: center;
 }
 
-caption
-{
-	font-size: 140%;
+body {
+  background-image: url('grey.jpg');
+  background-repeat: no-repeat;
+  background-size: cover; 
 }
+
+h1
+{
+	font-family: Arial;
+	/*font-family: "Marker Felt", fantasy;*/
+	font-size: 30px;
+	font-weight: 600;
+	color: rgb(0,0,85);
+}
+
+p
+{
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: 549;
+	color: rgb(0,0,110);
+}
+
+legend
+{
+	font-family: Arial;
+	font-size: 18px;
+	font-weight: 550;
+	color: #f5f5f5;
+}
+
+label
+{
+	text-align: right;
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: 549;
+	width: 100px;
+	display: inline-block;
+	white-space: nowrap;
+}
+
+button
+{
+	font-family: "Times New Roman";
+	font-weight: 800;
+	font-size: 25px;
+	border-radius: 12px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	box-shadow: 0 9px #999;
+}
+
+button:active {
+  background-color: #4CAF50;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+div.a {
+  white-space: nowrap;
+  
+}
+
+input
+{
+	font-size: 14px;
+	font-family: "Times New Roman";
+	font-weight: 800;
+	text-align: right;
+	border-radius: 12px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+}
+
+input:hover {
+  background-color: yellow; /* Green */
+  color: black;
+}
+
+form{
+	display: inline-block;
+	width: 800px;
+}
+
+div.b{
+	display: inline-block;
+}
+
+div.bruh{
+	display: inline;
+}
+
+div.center
+{
+	display: inline; 
+}
+
+div{
+	display: inline-block;
+	color: black;
+}
+
+fieldset{
+	border-bottom: 3px solid yellow;
+	border-right: 3px solid yellow;
+	background-color: #444;
+	color: #f5f5f5;
+}
+
+caption{
+	color: #f5f5f5;
+	font-family: "Times New Roman";
+	font-weight: 800;
+	font-size: 20px;
+	background-color: #444;
+}
+

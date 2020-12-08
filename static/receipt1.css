@@ -125,3 +125,34 @@ caption
 {
 	font-size: 140%;
 }
+
+input {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #555555;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 18px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+input:hover {
+  border: 2px solid #ECFD12;
+  background-color: black;
+  color: white;
+}
+
+div.bruh
+{
+	margin-left: 0px;
+}
+
+a
+{
+	font-size: 20px;
+}

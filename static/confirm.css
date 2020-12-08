@@ -10,7 +10,7 @@ h1
 	/*font-family: "Marker Felt", fantasy;*/
 	font-size: 30px;
 	font-weight: 600;
-	color: rgb(0,0,85);
+	color: black;
 }
 
 p
@@ -18,7 +18,7 @@ p
 	font-family: Arial;
 	font-size: 25px;
 	font-weight: 550;
-	color: rgb(0,0,110);
+	color: black;
 }
 
 legend
@@ -26,7 +26,7 @@ legend
 	font-family: Arial;
 	font-size: 18px;
 	font-weight: 550;
-	color: rgb(0,0,110);
+	color: black;
 }
 
 label
@@ -34,7 +34,7 @@ label
 	font-family: Arial;
 	font-size: 15px;
 	font-weight: 549;
-	color: rgb(60,40,110);
+	color: black;
 	width: 70px;
 	display: inline-block;
 }
