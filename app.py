@@ -12,21 +12,21 @@ app.config['MYSQL_DATABASE_DB'] = 'heroku_8b24389f4313f76'
 app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-02.cleardb.com'
 mysql.init_app(app)
 
-countryCoord = open('default_country.txt', "r")
-Lat = float(next(countryCoord).split()[0])
-Lon = float(next(countryCoord).split()[0])
-cruise_dest = [Lon, Lat]
+#countryCoord = open('default_country.txt', "r")
+#Lat = float(next(countryCoord).split()[0])
+#Lon = float(next(countryCoord).split()[0])
+cruise_dest = [133.775136, -25.274398]
 print("global", cruise_dest)
-countryCoord.close()
+#countryCoord.close()
 
-def setCountry():
-	countryCoord = open('default_country.txt', "r")
-	Lat = float(next(countryCoord).split()[0])
-	Lon = float(next(countryCoord).split()[0])
+def setCountry(lat, lon):
+	#countryCoord = open('default_country.txt', "r")
+	Lat = lat#float(next(countryCoord).split()[0])
+	Lon = lon#float(next(countryCoord).split()[0])
 	global cruise_dest
 	cruise_dest = [Lon, Lat]
 	print(cruise_dest)
-	countryCoord.close()
+	#countryCoord.close()
 
 @app.route("/")
 def main():
@@ -3315,22 +3315,22 @@ def routingJourney():
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 1):
-			Countrycoord = open('default_country.txt', "w")
+			'''Countrycoord = open('default_country.txt', "w")
 			Countrycoord.write(str(DepartLat))
-			Countrycoord.write('\n')
+			Countrycoord.write('')
 			Countrycoord.write(str(DepartLon))
-			Countrycoord.close()
-			setCountry()
+			Countrycoord.close()'''
+			setCountry(DepartLat, DepartLon)
 			return render_template('confirmCrew.html', result='This route already exists. Transaction completed.', username=UserID, dept=UserDept)
 
 		Distance = int(math.sqrt(pow(ArriveLon - DepartLon, 2) + pow(ArriveLat - DepartLat, 2)))
-
+		'''
 		Countrycoord = open('default_country.txt', "w")
 		Countrycoord.write(str(DepartLat))
-		Countrycoord.write('\n')
+		Countrycoord.write('')
 		Countrycoord.write(str(DepartLon))
-		Countrycoord.close()
-		setCountry()
+		Countrycoord.close()'''
+		setCountry(DepartLat, DepartLon)
 
 		#print(cr)
 		sql = 'insert into Route values (%s, %s, %s)'
