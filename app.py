@@ -3271,6 +3271,7 @@ def routingJourneyInter():
 @app.route('/routingJourney', methods=['POST', 'GET'])
 def routingJourney():
 	try:
+		global cruise_dest
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
 
@@ -3321,7 +3322,6 @@ def routingJourney():
 			Countrycoord.write(str(DepartLon))
 			Countrycoord.close()'''
 			#setCountry(DepartLat, DepartLon)
-			global cruise_dest
 			cruise_dest = [DepartLon, DepartLat]
 			return render_template('confirmCrew.html', result='This route already exists. Transaction completed.', username=UserID, dept=UserDept)
 
@@ -3333,7 +3333,7 @@ def routingJourney():
 		Countrycoord.write(str(DepartLon))
 		Countrycoord.close()'''
 		#setCountry(DepartLat, DepartLon)
-		global cruise_dest
+		
 		cruise_dest = [DepartLon, DepartLat]
 
 		#print(cr)
