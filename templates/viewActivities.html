@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>View Activities</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='receipt.css') }}">
+</head>
+
+
+<body onload="Calculate()">	
+		<table class="center">
+			<caption>Activities</caption>
+			<thead>
+        		<tr>
+					<th>Facility</th>
+					<th>Day</th>
+					<th>Start Time</th>
+					<th>End Time</th>
+        		</tr>
+		    </thead>
+		    <tbody>
+			    {% for item in tables %}
+			    <tr>
+			    	<td>{{ item[0] }}</td>
+			    	<td>{{ item[1] }}</td>
+			    	<td>{{ item[2] }}</td>
+			    	<td>{{ item[3] }}</td>
+			    </tr>
+			    {% endfor %}
+			</tbody>
+
+		</table>
+	<form action="returnPassengerHome", method="POST">
+		<br>
+		<br>
+		<input type = "submit" value = "Return to Homepage"/>
+		<input type="hidden" id="user" name="user">
+	</form>
+
+	<script> 
+    function Calculate(){
+        var data = '{{ username }}';
+        document.getElementById('user').value = data;
+    }
+  </script>
+</body>
+
+
+</html>

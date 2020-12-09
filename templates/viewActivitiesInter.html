@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>View Activities</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='generic3.css') }}">
+</head>
+
+
+<body onload="Calculate()">
+	<form action="viewActivities", method="POST">
+	<fieldset>
+		<legend>Enter Cruise Information</legend>
+
+  		<label for="Date">Date:</label>
+		<input type="text" name="Date" id="Date" pattern="202[0-9]-([0][1-9]|[1][0-2])-([0][1-9]|[1-2][0-9]|[3][0-1])" required> <br/>
+
+		<label for="Quarter">Cruise Quarter:</label>
+		<input type="text" name="Quarter" id="Quarter" pattern="[1-4]" required> <br/><br><br>
+
+		<input type="hidden" id="user" name="user">
+  		<input type="submit" value="Submit">
+	</fieldset>
+	</form>
+
+	<script> 
+		function Calculate(){
+		    var data = '{{ username }}'; 
+		    document.getElementById('user').value = data;
+		}
+	</script>
+</body>
+
+
+</html>

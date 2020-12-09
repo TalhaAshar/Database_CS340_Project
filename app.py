@@ -3425,13 +3425,254 @@ def viewMenuCrewmate():
 		return render_template('crewmateError.html', error=e, username=UserID, dept=Dept)
 	return render_template('viewMenuCrewmate.html', username=UserID, breakfast=breakfast, lunch=lunch, dinner=dinner, dept=Dept)
 
+
 @app.route('/scheduleFacilityInter', methods=['POST','GET'])
 def scheduleFacilityInter():
 	try:
 		UserID = request.form['userFacility']
 	except Exception as e:
-		return render_template('crewmateError.html', error=e, username=UserID)
-	return render_template('passengerFacilityBookInter', username=UserID)
+		return render_template('passengerError.html', error=e, username=UserID)
+	return render_template('scheduleFacilityInter.html', username=UserID)
+
+@app.route('/scheduleFacility', methods=['POST','GET'])
+def scheduleFacility():
+	try:
+		UserID = request.form['user']
+		Name = request.form['Name']
+		Day = request.form['Day']
+		Date = request.form['Date']
+		Quarter = request.form['Quarter']
+		cruise = Date[2:4] + Quarter
+
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		sql = "select count(*) from Facility where Name = (%s)"
+		values = (Name)
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		if result[0][0] == 0:
+			return render_template('passengerError.html', error = 'The input Facility does not exist.', username=UserID)
+
+		sql = "select count(*) from Scheduling inner join Timeslot on Scheduling.Timeslot_ID = Timeslot.ID where Timeslot.Day = (%s) and Scheduling.Facility_Name = (%s) and Scheduling.Passenger_ID like (%s)"
+		values = (Day, Name, cruise + '___1')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+
+		print(result)
+
+		facility_count = result[0][0]
+
+		sql = "select capacity from Facility where Name = (%s)"
+		values = (Name)
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+
+		if int(result[0][0]) <= facility_count:
+			return render_template('passengerError.html', error='The Facility is fully booked for the input day.', username=UserID)
+
+		if facility_count >= 3:
+			return render_template('passengerError.html', error='You have exceeded your facility booking limit for the input day.', username=UserID)
+
+		sql = "select Status from Facility where Name = (%s)"
+		values = (Name)
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		print(result)
+
+		if result[0][0] == 0:
+			return render_template('passengerError.html', error='The Facility is unavailable for the input day.', username=UserID)
+
+		sql = "select ID, Start_Time, End_Time from Timeslot where Day = (%s)"
+		values = (Day)
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+
+		#print(result, Day)
+
+		Slots = []
+		temp = []
+		for i in result:
+			strtime = i[1].strftime("%H:%M:%S")
+			if int(strtime[0:2]) >= 10 and int(strtime[0:2]) < 23:
+				Slots.append(i)
+				temp.append(i[0])
+
+		print(Slots)
+
+		sql = "select Timeslot_ID from Scheduling where Passenger_ID like (%s) and Facility_Name = (%s)"
+		values = (cruise + '___1', Name)
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+
+		temp_Slots = []
+		for i in result:
+			temp_Slots.append(i[0])
+
+		second_Slots = []
+		for i in range(0, len(Slots)):
+			if temp[i] not in temp_Slots:
+				second_Slots.append(Slots[i])
+
+		final_Slots = []
+		for i in range(0, len(second_Slots)):
+			temp = (second_Slots[i][0], second_Slots[i][1].strftime("%H:%M:%S")[0:5], second_Slots[i][2].strftime("%H:%M:%S")[0:5])
+			final_Slots.append(temp)
+
+	except Exception as e:
+		return render_template('passengerError.html', error=e, username=UserID)
+	mycursor.close()
+	mysqldb.close()
+	return render_template('scheduleFacility.html', username=UserID, tables=final_Slots, facility=Name, cruise= cruise, day=Day)
+
+@app.route('/scheduleFacilityFinal', methods=['POST','GET'])
+def scheduleFacilityFinal():
+	try:
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		UserID = request.form['user']
+		Name = request.form['facility']
+		Slot = request.form['ID']
+		cruise = request.form['cruise']
+		Day = request.form['day']
+
+		sql = "select ID, Start_Time, End_Time from Timeslot where Day = (%s)"
+		values = (Day)
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+
+
+
+		Slots = []
+		temp = []
+		for i in result:
+			strtime = i[1].strftime("%H:%M:%S")
+			if int(strtime[0:2]) >= 10 and int(strtime[0:2]) < 23:
+				Slots.append(i)
+				temp.append(i[0])
+
+		print(Slots)
+
+		sql = "select Timeslot_ID from Scheduling where Passenger_ID like (%s) and Facility_Name = (%s)"
+		values = (cruise + '___1', Name)
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+
+		temp_Slots = []
+		for i in result:
+			temp_Slots.append(i[0])
+
+		second_Slots = []
+		for i in range(0, len(Slots)):
+			if temp[i] not in temp_Slots:
+				second_Slots.append(Slots[i])
+		#print(second_Slots)
+
+		final_Slots = []
+		for i in range(0, len(second_Slots)):
+			final_Slots.append(second_Slots[i][0])
+
+		print(final_Slots)
+
+		if int(Slot) not in final_Slots:
+			return render_template('passengerError.html', error = 'Invalid ID input', username=UserID)
+
+		sql = "select ID from passenger where Login_ID = (%s) and ID like (%s)"
+		values = (UserID, cruise + '___1')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+
+		if not result:
+			return render_template('passengerError.html', error = 'You are not an active member for this cruise.', username=UserID)
+
+
+		sql = "insert into Scheduling values (%s, %s, %s, %s)"
+		values = (result[0][0], Name, Slot, 3)
+		mycursor.execute(sql, values)
+		mysqldb.commit()
+	except Exception as e:
+		return render_template('passengerError.html', error=e, username=UserID)
+	mycursor.close()
+	mysqldb.close()
+	return render_template('confirmPassenger.html', result='Your Transaction has been Completed.', username=UserID)
+
+@app.route('/viewActivitiesInter', methods=['POST', 'GET'])
+def viewActivitiesInter():
+	try:
+		UserID = request.form['userActivity']
+	except Exception as e:
+		return render_template('passengerError.html', error=e, username=UserID)
+	return render_template('viewActivitiesInter.html', username=UserID)
+
+@app.route('/viewActivities', methods=['POST', 'GET'])
+def viewActivities():
+	try:
+		UserID = request.form['user']
+		Year = request.form['Date'][2:4]
+		Quarter = request.form['Quarter']
+		cruise = Year + Quarter
+
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		sql = "select Scheduling.Facility_Name, Timeslot.Day, Timeslot.Start_Time, Timeslot.End_Time from Scheduling inner join Timeslot on Timeslot.ID = Scheduling.Timeslot_ID inner join Passenger on Passenger.ID = Scheduling.Passenger_ID where Passenger.Login_ID = (%s) and Passenger.ID like (%s)"
+		values = (UserID, cruise + '___1')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+
+		final = []
+
+		for i in result:
+			temp = (i[0], i[1], i[2].strftime("%H:%M:%S")[0:5], i[3].strftime("%H:%M:%S")[0:5])
+			final.append(temp)
+
+	except Exception as e:
+		return render_template('passengerError.html', error=e, username=UserID)
+	mycursor.close()
+	mysqldb.close()
+	return render_template('viewActivities.html', username = UserID, tables=final)
+
+@app.route('/viewTicketsInter', methods=['POST', 'GET'])
+def viewTicketsInter():
+	try:
+		UserID = request.form['userTicketView']
+	except Exception as e:
+		return render_template('passengerError.html', error=e, username=UserID)
+	return render_template('viewTicketsInter.html', username=UserID)
+
+@app.route('/viewTickets', methods=['POST', 'GET'])
+def viewTickets():
+	try:
+		UserID = request.form['user']
+		Year = request.form['Date'][2:4]
+		Quarter = request.form['Quarter']
+		cruise = Year + Quarter
+
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		sql = "select Ticket.ID, Ticket.Type, Ticket.Status from Ticket inner join Passenger on Ticket.Passenger_ID = Passenger.ID where Passenger.Login_ID = (%s) and Passenger.ID like (%s)"
+		values = (UserID, cruise + '___1')
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+
+		final = []
+
+		for i in result:
+			stat = 'Terminated'
+			if i[2] == 1:
+				stat = 'Pending'
+
+			temp = (i[0], i[1], stat)
+			final.append(temp)
+
+	except Exception as e:
+		return render_template('passengerError.html', error=e, username=UserID)
+	mycursor.close()
+	mysqldb.close()
+	return render_template('viewTickets.html', username = UserID, tables=final)
+
 
 if __name__ == "__main__":
     app.run()

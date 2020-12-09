@@ -69,6 +69,10 @@
               <input type="hidden" id="NameService" name="NameService">
               <input type="submit" value="      Room Service      ">
             </form></li>
+            <li><form action="viewTicketsInter", method="POST">
+              <input type="hidden" id="userTicketView" name="userTicketView">
+              <input type="submit" value="           View           ">
+            </form></li>
           </ul>
         </li>
         <li><a href="#">Bookings</a>
@@ -117,16 +121,11 @@
         </li>
         <li><a href="#">Activites</a>
           <ul>
-            <li><form >
-              <input type="hidden" id="user" name="user">
-              <input type="hidden" id="CNIC" name="CNIC">
-              <input type="hidden" id="Age" name="Age">
-              <input type="hidden" id="Name" name="Name">
-              <input type="hidden" id="disability" name="disability">
-              <input type="hidden" id="promo_campaign" name="promo_campaign">
+            <li><form action="viewActivitiesInter", method="POST">
+              <input type="hidden" id="userActivity" name="userActivity">
               <input type="submit" value="           View           ">
             </form></li>
-            <li><form >
+            <li><form action="scheduleFacilityInter", method="POST">
               <input type="hidden" id="userFacility" name="userFacility">
               <input type="submit" value="         Schedule         ">
             </form></li>
@@ -210,6 +209,8 @@ window.onclick = function(event) {
         document.getElementById('userMenu').value = data;
         document.getElementById('userCategory').value = '1';
         document.getElementById('userFacility').value = data;
+        document.getElementById('userActivity').value = data;
+        document.getElementById('userTicketView').value = data;
         var cnic = '{{ CNIC }}';
         document.getElementById('CNICBook').value = cnic;
         document.getElementById('CNICDel').value = cnic;
