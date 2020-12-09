@@ -12,6 +12,20 @@ app.config['MYSQL_DATABASE_DB'] = 'heroku_8b24389f4313f76'
 app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-02.cleardb.com'
 mysql.init_app(app)
 
+countryCoord = open('default_country.txt', "r")
+Lat = float(next(countryCoord).split()[0])
+Lon = float(next(countryCoord).split()[0])
+cruise_dest = [Lon, Lat]
+countryCoord.close()
+
+def setCountry():
+    countryCoord = open('default_country.txt', "r")
+    Lat = float(next(countryCoord).split()[0])
+    Lon = float(next(countryCoord).split()[0])
+    global cruise_dest
+    cruise_dest = [Lon, Lat]
+    countryCoord.close()
+
 @app.route("/")
 def main():
     return render_template('index.html')
@@ -76,7 +90,7 @@ def verifiedLogin():
 				flag = 0
 
 
-			return render_template('passengerHome.html', username=UserID, CNIC=CNIC, name=Name, age=Age, disability=Disability, promo=Promo, flag=flag)
+			return render_template('passengerHome.html', username=UserID, CNIC=CNIC, name=Name, age=Age, disability=Disability, promo=Promo, flag=flag, dest=cruise_dest)
 		#return render_template('passengerBooking.html', username=UserID, CNIC=CNIC, name=Name, age=Age, disability=Disability, promo=Promo)
 		elif _UserType == 'Crewmate':
 			if(temp.get('offshore') or (temp.get('passenger'))):
@@ -109,23 +123,23 @@ def verifiedLogin():
 				mycursor.close()
 				mysqldb.close()
 				if(Dept_Name == 'Supplies'):
-					return render_template('crewmateInventoryHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('crewmateInventoryHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Administration'):
-					return render_template('crewmateAdminHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('crewmateAdminHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Cleaning'):
-					return render_template('crewmateCleaningHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('crewmateCleaningHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Engine'):
-					return render_template('crewmateEngineHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('crewmateEngineHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'First Aid'):
-					return render_template('crewmateFirstAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('crewmateFirstAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Kitchen'):
-					return render_template('crewmateKitchenHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('crewmateKitchenHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Security'):
-					return render_template('crewmateSecurityHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('crewmateSecurityHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Room Service'):
-					return render_template('crewmateRoomServiceHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('crewmateRoomServiceHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				else:
-					return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 			else:
 				sql = 'select Officer_Rank, Designation from highest_ranking_officer where Crewmate_ID = (%s)'
 				values = ID
@@ -135,25 +149,25 @@ def verifiedLogin():
 				mycursor.close()
 				mysqldb.close()
 				if(Dept_Name == 'Supplies'):
-					return render_template('rankingInventoryHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingInventoryHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Administration'):
-					return render_template('rankingAdminHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingAdminHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Cleaning'):
-					return render_template('rankingCleaningHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingCleaningHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Engine'):
-					return render_template('rankingEngineHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingEngineHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'First Aid'):
-					return render_template('rankingFirstAidHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingFirstAidHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Kitchen'):
-					return render_template('rankingKitchenHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingKitchenHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Security'):
-					return render_template('rankingSecurityHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingSecurityHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Room Service'):
-					return render_template('rankingRoomServiceHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingRoomServiceHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Operations'):
-					return render_template('rankingOperationsHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingOperationsHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 				elif(Dept_Name == 'Acitivities'):
-					return render_template('rankingActivitiesHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+					return render_template('rankingActivitiesHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif _UserType == 'Offshore_Management':
 
 			mycursor.close()
@@ -1867,7 +1881,7 @@ def returnPassengerHome():
 	finally:
 		mycursor.close()
 		mysqldb.close()
-	return render_template('passengerHome.html', username=UserID, CNIC=CNIC, name=Name, age=Age, disability=Disability, promo=Promo, flag=flag)
+	return render_template('passengerHome.html', username=UserID, CNIC=CNIC, name=Name, age=Age, disability=Disability, promo=Promo, flag=flag, dest=cruise_dest)
 
 @app.route('/returnCrewmateHome', methods=['POST', 'GET'])
 def returnCrewmateHome():
@@ -1899,23 +1913,23 @@ def returnCrewmateHome():
 
 	if(result[0][0] == 0):
 		if(Dept_Name == 'Supplies'):
-			return render_template('crewmateInventoryHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('crewmateInventoryHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Administration'):
-			return render_template('crewmateAdminHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('crewmateAdminHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Cleaning'):
-			return render_template('crewmateCleaningHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('crewmateCleaningHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Engine'):
-			return render_template('crewmateEngineHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('crewmateEngineHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'First Aid'):
-			return render_template('crewmateFirstAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('crewmateFirstAidHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Kitchen'):
-			return render_template('crewmateKitchenHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('crewmateKitchenHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Security'):
-			return render_template('crewmateSecurityHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('crewmateSecurityHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Room Service'):
-			return render_template('crewmateRoomServiceHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('crewmateRoomServiceHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		else:
-			return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 	else:
 		sql = 'select Officer_Rank, Designation from highest_ranking_officer where Crewmate_ID = (%s)'
 		values = ID
@@ -1923,25 +1937,25 @@ def returnCrewmateHome():
 		result = mycursor.fetchall()
 		Rank = result[0][0]
 		if(Dept_Name == 'Supplies'):
-			return render_template('rankingInventoryHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingInventoryHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Administration'):
-			return render_template('rankingAdminHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingAdminHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Cleaning'):
-			return render_template('rankingCleaningHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingCleaningHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Engine'):
-			return render_template('rankingEngineHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingEngineHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'First Aid'):
-			return render_template('rankingFirstAidHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingFirstAidHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Kitchen'):
-			return render_template('rankingKitchenHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingKitchenHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Security'):
-			return render_template('rankingSecurityHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingSecurityHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Room Service'):
-			return render_template('rankingRoomServiceHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingRoomServiceHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Operations'):
-			return render_template('rankingOperationsHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingOperationsHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 		elif(Dept_Name == 'Acitivities'):
-			return render_template('rankingActivitiesHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status)
+			return render_template('rankingActivitiesHome.html', username=UserID, name=Name, rank=Rank, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 
 @app.route('/complaintIntermediate', methods=['POST', 'GET'])
 def complaintIntermediate():
@@ -3263,6 +3277,9 @@ def routingJourney():
 		Start = request.form['Departure']
 		End = request.form['Arrival']
 
+		if(Start == End):
+			return render_template('passengerError.html', error='The Destination and Source are the same.', username=UserID, dept=UserDept)
+
 		sql = 'select count(*) from Location where Name = %s'
 		values = Start
 		mycursor.execute(sql, values)
@@ -3277,30 +3294,55 @@ def routingJourney():
 		if(result[0][0] == 0):
 			return render_template('crewmateError.html', error='The arrival country entered either does not exist or is land-locked.', username=UserID, dept=UserDept)
 
+		sql = 'select latitude, longitude from Location where Name = %s'
+        values = Start
+        mycursor.execute(sql, values)
+        result = mycursor.fetchall()
+        DepartLat = result[0][0]
+        DepartLon = result[0][1]
 
-		sql = 'select latitude, longitude from Location where Name = %s or Name = %s'
-		values = (Start, End)
-		mycursor.execute(sql, values)
-		result = mycursor.fetchall()
-		DepartLat = result[0][0]
-		DepartLon = result[0][1]
-		ArriveLat = result[1][0]
-		ArriveLon = result[1][1]
+        sql = 'select latitude, longitude from Location where Name = %s'
+        values = End
+        mycursor.execute(sql, values)
+        result = mycursor.fetchall()
+        ArriveLat = result[0][0]
+        ArriveLon = result[0][1]
 
-		Distance = int(math.sqrt(pow(ArriveLon - DepartLon, 2) + pow(ArriveLat - DepartLat, 2)))
+        sql = 'select count(*) from route where Source = %s and Destination = %s'
+        values = (Start, End)
+        mycursor.execute(sql, values)
+        result = mycursor.fetchall()
+        if(result[0][0] == 1):
+            Countrycoord = open('default_country.txt', "w")
+            Countrycoord.write(str(DepartLat))
+            Countrycoord.write('\n')
+            Countrycoord.write(str(DepartLon))
+            Countrycoord.close()
+            setCountry()
+            return render_template('confirmCrew.html', result='This route already exists. Transaction completed.', username=UserID, dept=UserDept)
 
-		sql = 'insert into Route values (%s, %s, %s)'
-		values = (Start, End, Distance)
-		mycursor.execute(sql, values)
-		mysqldb.commit()
+        Distance = int(math.sqrt(pow(ArriveLon - DepartLon, 2) + pow(ArriveLat - DepartLat, 2)))
 
-	except Exception as e:
-		return render_template('crewmateError.html', error=e, username=UserID, dept=UserDept)
+        Countrycoord = open('default_country.txt', "w")
+        Countrycoord.write(str(DepartLat))
+        Countrycoord.write('\n')
+        Countrycoord.write(str(DepartLon))
+        Countrycoord.close()
+        setCountry()
 
-	finally:
-		mycursor.close()
-		mysqldb.close()
-	return render_template('confirmCrew.html', result = 'Transaction completed.', username=UserID, dept=UserDept)
+        #print(cr)
+        sql = 'insert into Route values (%s, %s, %s)'
+        values = (Start, End, Distance)
+        mycursor.execute(sql, values)
+        mysqldb.commit()
+
+    except Exception as e:
+        return render_template('crewmateError.html', error=e, username=UserID, dept=UserDept)
+
+    finally:
+        mycursor.close()
+        mysqldb.close()
+    return render_template('confirmCrew.html', result = 'Transaction completed.', username=UserID, dept=UserDept)
 
 @app.route('/viewMenuInter', methods=['POST', 'GET'])
 def viewMenuInter():
