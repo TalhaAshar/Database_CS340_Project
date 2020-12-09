@@ -16,19 +16,20 @@ countryCoord = open('default_country.txt', "r")
 Lat = float(next(countryCoord).split()[0])
 Lon = float(next(countryCoord).split()[0])
 cruise_dest = [Lon, Lat]
+print("global", cruise_dest)
 countryCoord.close()
 
 def setCountry():
-    countryCoord = open('default_country.txt', "r")
-    Lat = float(next(countryCoord).split()[0])
-    Lon = float(next(countryCoord).split()[0])
-    global cruise_dest
-    cruise_dest = [Lon, Lat]
-    countryCoord.close()
+	countryCoord = open('default_country.txt', "r")
+	Lat = float(next(countryCoord).split()[0])
+	Lon = float(next(countryCoord).split()[0])
+	global cruise_dest
+	cruise_dest = [Lon, Lat]
+	countryCoord.close()
 
 @app.route("/")
 def main():
-    return render_template('index.html')
+	return render_template('index.html')
 
 @app.route('/verifiedLogin', methods=['POST', 'GET'])
 def verifiedLogin():
