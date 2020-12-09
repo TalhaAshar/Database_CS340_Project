@@ -3320,7 +3320,9 @@ def routingJourney():
 			Countrycoord.write('')
 			Countrycoord.write(str(DepartLon))
 			Countrycoord.close()'''
-			setCountry(DepartLat, DepartLon)
+			#setCountry(DepartLat, DepartLon)
+			global cruise_dest
+			cruise_dest = [DepartLon, DepartLat]
 			return render_template('confirmCrew.html', result='This route already exists. Transaction completed.', username=UserID, dept=UserDept)
 
 		Distance = int(math.sqrt(pow(ArriveLon - DepartLon, 2) + pow(ArriveLat - DepartLat, 2)))
@@ -3330,7 +3332,9 @@ def routingJourney():
 		Countrycoord.write('')
 		Countrycoord.write(str(DepartLon))
 		Countrycoord.close()'''
-		setCountry(DepartLat, DepartLon)
+		#setCountry(DepartLat, DepartLon)
+		global cruise_dest
+		cruise_dest = [DepartLon, DepartLat]
 
 		#print(cr)
 		sql = 'insert into Route values (%s, %s, %s)'
