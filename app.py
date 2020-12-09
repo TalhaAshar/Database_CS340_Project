@@ -3280,38 +3280,40 @@ def routingJourney():
 		Start = request.form['Departure']
 		End = request.form['Arrival']
 
+		print(Start, End)
+
 		if(Start == End):
 			return render_template('passengerError.html', error='The Destination and Source are the same.', username=UserID, dept=UserDept)
 
-		sql = 'select count(*) from Location where Name = %s'
-		values = Start
+		sql = "select count(*) from Location where Name = (%s)"
+		values = (Start)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 0):
 			return render_template('crewmateError.html', error='The departure country entered either does not exist or is land-locked.', username=UserID, dept=UserDept)
 
-		sql = 'select count(*) from Location where Name = %s'
-		values = End
+		sql = "select count(*) from Location where Name = (%s)"
+		values = (End)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 0):
 			return render_template('crewmateError.html', error='The arrival country entered either does not exist or is land-locked.', username=UserID, dept=UserDept)
 
-		sql = 'select latitude, longitude from Location where Name = %s'
+		sql = "select latitude, longitude from Location where Name = (%s)"
 		values = Start
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		DepartLat = result[0][0]
 		DepartLon = result[0][1]
 
-		sql = 'select latitude, longitude from Location where Name = %s'
+		sql = "select latitude, longitude from Location where Name = (%s)"
 		values = End
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		ArriveLat = result[0][0]
 		ArriveLon = result[0][1]
 
-		sql = 'select count(*) from route where Source = %s and Destination = %s'
+		sql = "select count(*) from route where Source = %s and Destination = (%s)"
 		values = (Start, End)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -3337,7 +3339,7 @@ def routingJourney():
 		cruise_dest = [DepartLon, DepartLat]
 
 		#print(cr)
-		sql = 'insert into Route values (%s, %s, %s)'
+		sql = "insert into Route values (%s, %s, %s)"
 		values = (Start, End, Distance)
 		mycursor.execute(sql, values)
 		mysqldb.commit()
