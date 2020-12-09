@@ -3295,54 +3295,53 @@ def routingJourney():
 			return render_template('crewmateError.html', error='The arrival country entered either does not exist or is land-locked.', username=UserID, dept=UserDept)
 
 		sql = 'select latitude, longitude from Location where Name = %s'
-        values = Start
-        mycursor.execute(sql, values)
-        result = mycursor.fetchall()
-        DepartLat = result[0][0]
-        DepartLon = result[0][1]
+		values = Start
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		DepartLat = result[0][0]
+		DepartLon = result[0][1]
 
-        sql = 'select latitude, longitude from Location where Name = %s'
-        values = End
-        mycursor.execute(sql, values)
-        result = mycursor.fetchall()
-        ArriveLat = result[0][0]
-        ArriveLon = result[0][1]
+		sql = 'select latitude, longitude from Location where Name = %s'
+		values = End
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		ArriveLat = result[0][0]
+		ArriveLon = result[0][1]
 
-        sql = 'select count(*) from route where Source = %s and Destination = %s'
-        values = (Start, End)
-        mycursor.execute(sql, values)
-        result = mycursor.fetchall()
-        if(result[0][0] == 1):
-            Countrycoord = open('default_country.txt', "w")
-            Countrycoord.write(str(DepartLat))
-            Countrycoord.write('\n')
-            Countrycoord.write(str(DepartLon))
-            Countrycoord.close()
-            setCountry()
-            return render_template('confirmCrew.html', result='This route already exists. Transaction completed.', username=UserID, dept=UserDept)
+		sql = 'select count(*) from route where Source = %s and Destination = %s'
+		values = (Start, End)
+		mycursor.execute(sql, values)
+		result = mycursor.fetchall()
+		if(result[0][0] == 1):
+			Countrycoord = open('default_country.txt', "w")
+			Countrycoord.write(str(DepartLat))
+			Countrycoord.write('\n')
+			Countrycoord.write(str(DepartLon))
+			Countrycoord.close()
+			setCountry()
+			return render_template('confirmCrew.html', result='This route already exists. Transaction completed.', username=UserID, dept=UserDept)
 
-        Distance = int(math.sqrt(pow(ArriveLon - DepartLon, 2) + pow(ArriveLat - DepartLat, 2)))
+		Distance = int(math.sqrt(pow(ArriveLon - DepartLon, 2) + pow(ArriveLat - DepartLat, 2)))
 
-        Countrycoord = open('default_country.txt', "w")
-        Countrycoord.write(str(DepartLat))
-        Countrycoord.write('\n')
-        Countrycoord.write(str(DepartLon))
-        Countrycoord.close()
-        setCountry()
+		Countrycoord = open('default_country.txt', "w")
+		Countrycoord.write(str(DepartLat))
+		Countrycoord.write('\n')
+		Countrycoord.write(str(DepartLon))
+		Countrycoord.close()
+		setCountry()
 
-        #print(cr)
-        sql = 'insert into Route values (%s, %s, %s)'
-        values = (Start, End, Distance)
-        mycursor.execute(sql, values)
-        mysqldb.commit()
+		#print(cr)
+		sql = 'insert into Route values (%s, %s, %s)'
+		values = (Start, End, Distance)
+		mycursor.execute(sql, values)
+		mysqldb.commit()
 
-    except Exception as e:
-        return render_template('crewmateError.html', error=e, username=UserID, dept=UserDept)
-
-    finally:
-        mycursor.close()
-        mysqldb.close()
-    return render_template('confirmCrew.html', result = 'Transaction completed.', username=UserID, dept=UserDept)
+	except Exception as e:
+		return render_template('crewmateError.html', error=e, username=UserID, dept=UserDept)
+	finally:
+		mycursor.close()
+		mysqldb.close()
+	return render_template('confirmCrew.html', result = 'Transaction completed.', username=UserID, dept=UserDept)
 
 @app.route('/viewMenuInter', methods=['POST', 'GET'])
 def viewMenuInter():
