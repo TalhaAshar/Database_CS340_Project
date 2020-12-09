@@ -25,6 +25,7 @@ def setCountry():
 	Lon = float(next(countryCoord).split()[0])
 	global cruise_dest
 	cruise_dest = [Lon, Lat]
+	print(cruise_dest)
 	countryCoord.close()
 
 @app.route("/")
