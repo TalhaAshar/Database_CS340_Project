@@ -30,6 +30,25 @@
 	</fieldset>
 	</form>
 
+	<div style="height:500px;width:300px;overflow:auto;" class="b">
+  <table class="center">
+      <caption>Facilities</caption>
+      <thead>
+            <tr>
+          <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for item in tables %}
+          <tr>
+            <td>{{ item }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+
+    </table>
+</div>
+
 <script> 
     function Calculate(){
         var user = '{{ username }}'; 

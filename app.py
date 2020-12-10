@@ -3473,9 +3473,20 @@ def viewMenuCrewmate():
 def scheduleFacilityInter():
 	try:
 		UserID = request.form['userFacility']
+		mysqldb = mysql.connect()
+		mycursor = mysqldb.cursor()
+
+		mycursor.execute("select Name from Facility where Status = 1")
+		result = mycursor.fetchall()
+		tables = []
+		for i in result:
+			tables.append(i[0])
 	except Exception as e:
 		return render_template('passengerError.html', error=e, username=UserID)
-	return render_template('scheduleFacilityInter.html', username=UserID)
+	finally:
+		mycursor.close()
+		mysqldb.close()
+	return render_template('scheduleFacilityInter.html', username=UserID, tables = tables)
 
 @app.route('/scheduleFacility', methods=['POST','GET'])
 def scheduleFacility():
@@ -3695,7 +3706,7 @@ def viewTickets():
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
 
-		sql = "select Ticket.ID, Ticket.Type, Ticket.Status from Ticket inner join Passenger on Ticket.Passenger_ID = Passenger.ID where Passenger.Login_ID = (%s) and Passenger.ID like (%s)"
+		sql = "select Ticket.ID, Ticket.Type, Ticket.Status from Ticket inner join Passenger on Ticket.Passenger_ID = Passenger.ID where Passenger.Login_ID = (%s) and Passenger.ID like (%s) order by Ticket.ID asc"
 		values = (UserID, cruise + '___1')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
