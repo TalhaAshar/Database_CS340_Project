@@ -28,16 +28,12 @@
         <input type="submit" value="          Swap         ">
         </form>
         </li>
-        <li><a href="#">Portal</a>
-            <ul>
-              <div class="eight">
-              <li><form action="complaintInterAdmin", method="POST">
+        <li><form action="complaintInterAdmin", method="POST">
               <input type="hidden" id="userComp" name="userComp">
               <input type="hidden" id="DeptComp" name="DeptComp">
               <input type="submit" value="        Complaints           ">
               </form></li>
-              </div>
-            </ul>
+          
             <li><a href="#">Inventory Management</a>
             <ul>
               <div class="eight">
@@ -127,7 +123,7 @@
         document.getElementById('userFDel').value = data;
         document.getElementById('userFUPG').value = data;
         document.getElementById('userMap').value = data;
-        document.getElementById('userComp').value = dept;
+        document.getElementById('userComp').value = data;
         var name = '{{ name }}';
         document.getElementById('NameSwap').value = name;
 
