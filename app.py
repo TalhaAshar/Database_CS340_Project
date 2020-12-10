@@ -116,8 +116,8 @@ def verifiedLogin():
 			ID = result[0][5]
 			print(result)
 
-			sql = 'select count(*) from highest_ranking_officer where Crewmate_ID = (%s)'
-			values = ID
+			sql = "select count(*) from highest_ranking_officer where Crewmate_ID = (%s)"
+			values = (ID)
 			mycursor.execute(sql, values)
 			result = mycursor.fetchall()
 
@@ -143,8 +143,8 @@ def verifiedLogin():
 				else:
 					return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 			else:
-				sql = 'select Officer_Rank, Designation from highest_ranking_officer where Crewmate_ID = (%s)'
-				values = ID
+				sql = "select Officer_Rank, Designation from highest_ranking_officer where Crewmate_ID = (%s)"
+				values = (ID)
 				mycursor.execute(sql, values)
 				result = mycursor.fetchall()
 				Rank = result[0][0]
@@ -1148,7 +1148,7 @@ def committingCrewmate_Login():
 			mycursor.execute('select count(*) from highest_ranking_officer')
 			result = mycursor.fetchall()
 			rank = result[0][0] + 1
-			sql = 'insert into highest_ranking_officer values (%s, %s, %s)'
+			sql = "insert into highest_ranking_officer values (%s, %s, %s)"
 			values = (rank, new_id, Department)
 			mycursor.execute(sql, values)
 
@@ -1309,7 +1309,7 @@ def committingCrewmate_LoginExisting():
 			mycursor.execute('select count(*) from highest_ranking_officer')
 			result = mycursor.fetchall()
 			rank = result[0][0] + 1
-			sql = 'insert into highest_ranking_officer values (%s, %s, %s)'
+			sql = "insert into highest_ranking_officer values (%s, %s, %s)"
 			values = (rank, new_id, Department)
 			mycursor.execute(sql, values)
 
@@ -1908,8 +1908,8 @@ def returnCrewmateHome():
 	except Exception as e:
 		return render_template('crewmateError.html', error=e, username=UserID, dept = Dept)
 
-	sql = 'select count(*) from highest_ranking_officer where Crewmate_ID = (%s)'
-	values = ID
+	sql = "select count(*) from highest_ranking_officer where Crewmate_ID = (%s)"
+	values = (ID)
 	mycursor.execute(sql, values)
 	result = mycursor.fetchall()
 
@@ -1933,8 +1933,8 @@ def returnCrewmateHome():
 		else:
 			return render_template('crewmateGenericHome.html', username=UserID, name=Name, origin=Origin, dept=Dept_Name, exp=Experience, status=Status, dest=cruise_dest)
 	else:
-		sql = 'select Officer_Rank, Designation from highest_ranking_officer where Crewmate_ID = (%s)'
-		values = ID
+		sql = "select Officer_Rank, Designation from highest_ranking_officer where Crewmate_ID = (%s)"
+		values = (ID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		Rank = result[0][0]
@@ -2381,12 +2381,12 @@ def insertInventory():
 			Freight = 1
 
 		Department = request.form['Department']
-		sql = 'select count(*) from inventory where Name = (%s)'
+		sql = "select count(*) from inventory where Name = (%s)"
 		values = (Name)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 0):
-			sql = 'insert into inventory values (%s, %s, %s, %s, %s, %s, %s, %s)'
+			sql = "insert into inventory values (%s, %s, %s, %s, %s, %s, %s, %s)"
 			values = (ItemNum, Name, Quantity, Weight, Status, Description, Freight, Department)
 			mycursor.execute(sql, values)
 			mysqldb.commit()
@@ -2397,12 +2397,6 @@ def insertInventory():
 		return render_template('crewmateError.html', error=e, username=UserID, dept=UserDept)
 
 	finally:
-		'''
-		sql = 'select Name, Origin, Dept_name, Experience, Status from crewmate where Login_ID = %s'
-		values = UserID
-		mycursor.execute(sql, values)
-		result = mycursor.fetchall()
-		'''
 		mycursor.close() 
 		mysqldb.close()
 	return render_template('confirmCrew.html', result='Your Transaction has been Completed.', username=UserID, dept=UserDept)
@@ -2447,12 +2441,12 @@ def deleteInventory():
 
 		ItemID = request.form['ID']
 
-		sql = 'select count(*) from inventory where ID = (%s)'
+		sql = "select count(*) from inventory where ID = (%s)"
 		values = (ItemID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 1):
-			sql = 'update inventory set Quantity_Present = 0 where ID = (%s)'
+			sql = "update inventory set Quantity_Present = 0 where ID = (%s)"
 			mycursor.execute(sql, ItemID)
 			mysqldb.commit()
 		elif(result[0][0] == 0):
@@ -2518,7 +2512,7 @@ def updateInventory():
 
 		Department = request.form['Department']
 
-		sql = 'select count(*), ID from inventory where Name = (%s)'
+		sql = "select count(*), ID from inventory where Name = (%s)"
 		values = (Name)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -2526,12 +2520,12 @@ def updateInventory():
 			if(result[0][1] != int(ItemID)):
 				return render_template('crewmateError.html', error ='The item already exists in the inventory.', username=UserID, dept=UserDept)
 
-		sql = 'select count(*) from inventory where ID = (%s)'
+		sql = "select count(*) from inventory where ID = (%s)"
 		values = (ItemID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 1):
-			sql = 'update inventory set Name = %s, Quantity_Present = %s, Weight = %s, Status = %s, Description = %s, Is_Freight = %s, Dept_name = %s  where ID = %s'
+			sql = "update inventory set Name = (%s), Quantity_Present = (%s), Weight = (%s), Status = (%s), Description = (%s), Is_Freight = (%s), Dept_name = (%s)  where ID = (%s)"
 			values = (Name, Quantity, Weight, Status, Description, Freight, Department, ItemID)
 			mycursor.execute(sql, values)
 			mysqldb.commit()
@@ -2561,8 +2555,8 @@ def insertInventoryInterDept():
 
 		numitem = result[0][0] + 1
 
-		sql = 'select ID, Name, Quantity_Present, Weight, Status, Description from inventory where Dept_name = %s' #Takes all the display data for the table and passes it on.
-		values = Dept
+		sql = "select ID, Name, Quantity_Present, Weight, Status, Description from inventory where Dept_name = (%s)" #Takes all the display data for the table and passes it on.
+		values = (Dept)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 
@@ -2595,12 +2589,12 @@ def insertInventoryDept():
 		Status = request.form['Status']
 		Description = request.form['Description']
 
-		sql = 'select count(*) from inventory where Name = (%s)'
+		sql = "select count(*) from inventory where Name = (%s)"
 		values = (Name)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 0):
-			sql = 'insert into inventory values (%s, %s, %s, %s, %s, %s, %s, %s)'
+			sql = "insert into inventory values (%s, %s, %s, %s, %s, %s, %s, %s)"
 			values = (ItemNum, Name, Quantity, Weight, Status, Description, 0, UserDept)
 			mycursor.execute(sql, values)
 			mysqldb.commit()
@@ -2629,8 +2623,8 @@ def deleteInventoryInterDept():
 
 		numitem = result[0][0] + 1
 
-		sql = 'select ID, Name, Quantity_Present, Weight, Status, Description from inventory where Dept_name = %s' #Takes all the display data for the table and passes it on.
-		values = Dept
+		sql = "select ID, Name, Quantity_Present, Weight, Status, Description from inventory where Dept_name = (%s)" #Takes all the display data for the table and passes it on.
+		values = (Dept)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 
@@ -2657,7 +2651,7 @@ def deleteInventoryDept():
 
 		ItemID = request.form['ID']
 
-		sql = 'select count(ID) from inventory where Dept_name = %s and ID = %s'
+		sql = "select count(ID) from inventory where Dept_name = (%s) and ID = (%s)"
 		values = (UserDept, ItemID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -2665,12 +2659,12 @@ def deleteInventoryDept():
 		if(result[0][0] == 0):
 			return render_template('crewmateError.html', error ='The provided item ID does not belong to your department.', username=UserID, dept=UserDept)
 
-		sql = 'select count(*) from inventory where ID = (%s)'
+		sql = "select count(*) from inventory where ID = (%s)"
 		values = (ItemID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 1):
-			sql = 'update inventory set Quantity_Present = 0 where ID = (%s)'
+			sql = "update inventory set Quantity_Present = 0 where ID = (%s)"
 			mycursor.execute(sql, ItemID)
 			mysqldb.commit()
 		elif(result[0][0] == 0):
@@ -2698,8 +2692,8 @@ def updateInventoryInterDept():
 
 		numitem = result[0][0] + 1
 
-		sql = 'select ID, Name, Quantity_Present, Weight, Status, Description from inventory where Dept_name = %s' #Takes all the display data for the table and passes it on.
-		values = Dept
+		sql = "select ID, Name, Quantity_Present, Weight, Status, Description from inventory where Dept_name = (%s)" #Takes all the display data for the table and passes it on.
+		values = (Dept)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 
@@ -2731,7 +2725,7 @@ def updateInventoryDept():
 		Status = request.form['Status']
 		Description = request.form['Description']
 		
-		sql = 'select count(ID) from inventory where Dept_name = %s and ID = %s'
+		sql = "select count(ID) from inventory where Dept_name = (%s) and ID = (%s)"
 		values = (UserDept, ItemID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -2739,7 +2733,7 @@ def updateInventoryDept():
 		if(result[0][0] == 0):
 			return render_template('crewmateError.html', error ='The provided item ID does not belong to your department.', username=UserID, dept=UserDept)
 
-		sql = 'select count(*), ID from inventory where Name = (%s)'
+		sql = "select count(*), ID from inventory where Name = (%s)"
 		values = (Name)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -2747,12 +2741,12 @@ def updateInventoryDept():
 			if(result[0][1] != int(ItemID)):
 				return render_template('crewmateError.html', error ='The item already exists in the inventory.', username=UserID, dept=UserDept)
 
-		sql = 'select count(*) from inventory where ID = (%s)'
+		sql = "select count(*) from inventory where ID = (%s)"
 		values = (ItemID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 1):
-			sql = 'update inventory set Name = %s, Quantity_Present = %s, Weight = %s, Status = %s, Description = %s where ID = %s'
+			sql = "update inventory set Name = (%s), Quantity_Present = (%s), Weight = (%s), Status = (%s), Description = (%s) where ID = (%s)"
 			values = (Name, Quantity, Weight, Status, Description, ItemID)
 			mycursor.execute(sql, values)
 			mysqldb.commit()
@@ -2829,17 +2823,17 @@ def insertFreight():
 			return render_template('crewmateError.html', error='The input Location is invalid.', username=UserID, dept=UserDept)
 
 
-		sql = 'select count(*) from inventory where Name = (%s)'
+		sql = "select count(*) from inventory where Name = (%s)"
 		values = (Name)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		print(ItemNum, Name, Quantity, Weight, Status, Description, 1, UserDept, Luggage, Destination)
 		if(result[0][0] == 0):
-			sql = 'insert into inventory values (%s, %s, %s, %s, %s, %s, %s, %s)'
+			sql = "insert into inventory values (%s, %s, %s, %s, %s, %s, %s, %s)"
 			values = (ItemNum, Name, Quantity, Weight, Status, Description, 1, UserDept)
 			mycursor.execute(sql, values)
 			#mysqldb.commit()
-			sql = 'insert into freight values (%s, %s, %s)'
+			sql = "insert into freight values (%s, %s, %s)"
 			values = (ItemNum, Luggage, Destination)
 			mycursor.execute(sql, values)
 			mysqldb.commit()
@@ -2894,7 +2888,7 @@ def deleteFreight():
 
 		ItemID = request.form['ID']
 
-		sql = 'select count(ID) from inventory where Dept_name = %s and Is_Freight = 1 and ID = %s'
+		sql = "select count(ID) from inventory where Dept_name = (%s) and Is_Freight = 1 and ID = (%s)"
 		values = (UserDept, ItemID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -2902,12 +2896,12 @@ def deleteFreight():
 		if(result[0][0] == 0):
 			return render_template('crewmateError.html', error ='The provided item ID is not a freight item.', username=UserID, dept=UserDept)
 
-		sql = 'select count(*) from inventory where ID = (%s)'
+		sql = "select count(*) from inventory where ID = (%s)"
 		values = (ItemID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 1):
-			sql = 'update inventory set Quantity_Present = 0 where ID = (%s)'
+			sql = "update inventory set Quantity_Present = 0 where ID = (%s)"
 			mycursor.execute(sql, ItemID)
 			mysqldb.commit()
 		elif(result[0][0] == 0):
@@ -2981,7 +2975,7 @@ def updateFreight():
 		if temp.get('Luggage'):
 			Luggage = 1
 
-		sql = 'select count(ID) from inventory where Dept_name = %s and Is_Freight = 1 and ID = %s'
+		sql = "select count(ID) from inventory where Dept_name = (%s) and Is_Freight = 1 and ID = (%s)"
 		values = (UserDept, ItemID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -2989,7 +2983,7 @@ def updateFreight():
 		if(result[0][0] == 0):
 			return render_template('crewmateError.html', error ='The provided item ID is not a freight item.', username=UserID, dept=UserDept)
 
-		sql = 'select count(*), ID from inventory where Name = (%s)'
+		sql = "select count(*), ID from inventory where Name = (%s)"
 		values = (Name)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
@@ -2997,16 +2991,16 @@ def updateFreight():
 			if(result[0][1] != int(ItemID)):
 				return render_template('crewmateError.html', error ='The item already exists in the inventory.', username=UserID, dept=UserDept)
 
-		sql = 'select count(*) from inventory where ID = (%s)'
+		sql = "select count(*) from inventory where ID = (%s)"
 		values = (ItemID)
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		if(result[0][0] == 1):
-			sql = 'update inventory set Name = %s, Quantity_Present = %s, Weight = %s, Status = %s, Description = %s where ID = %s'
+			sql = "update inventory set Name = (%s), Quantity_Present = (%s), Weight = (%s), Status = (%s), Description = (%s) where ID = (%s)"
 			values = (Name, Quantity, Weight, Status, Description, ItemID)
 			mycursor.execute(sql, values)
 			mysqldb.commit()
-			sql = 'update freight set Luggage = %s, Destination = %s  where Inventory_ID = %s'
+			sql = "update freight set Luggage = (%s), Destination = (%s)  where Inventory_ID = (%s)"
 			values = (Luggage, Destination, ItemID)
 			mycursor.execute(sql, values)
 			mysqldb.commit()
