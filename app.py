@@ -472,10 +472,10 @@ def bookingPassengerRoomInter():
 		Current_Cruise =Current_Year + Current_Quarter
 
 		if(int(Year) < int(Current_Year)):
-			return render_template('error.html', error="You cannot make a booking for a previous cruise.")
+			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
 
 		if(int(Quarter) < int(Current_Quarter)):
-			return render_template('error.html', error="You cannot make a booking for a previous cruise.")
+			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
 
 		sql = "select ID, Package, Price from Room where Package != (%s)"
 		values = ('Crewmate')
@@ -661,6 +661,20 @@ def deletingPassengerRoomInter():
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
 
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
+		if(int(Year) < int(Current_Year)):
+			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+
+		if(int(Quarter) < int(Current_Quarter)):
+			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+
+
 		sql = "select Room.ID, Room.Package, Room.Price from Room inner join Passenger on Room.ID = Passenger.Room_ID where Passenger.Login_ID = (%s) and  Passenger.ID like (%s) order by Room.ID asc"
 		values = (UserID, cruise + '___1')
 		mycursor.execute(sql, values)
@@ -785,6 +799,16 @@ def upgradingPassengerRoomInter():
 
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
+		if(int(Year) < int(Current_Year)):
+			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+
+		if(int(Quarter) < int(Current_Quarter)):
+			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
 
 		sql = "select ID, Package, Price from Room where Package != (%s)"
 		values = ('Crewmate')
@@ -1004,6 +1028,7 @@ def crewmateBookType():
 
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
+
 
 		sql = "select ID from Room where Package = (%s)"
 		values = ('Crewmate')
@@ -2013,6 +2038,19 @@ def passengerComplaint():
 		complain = request.form['myTextArea']
 		cruise = Year + Quarter
 
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
+		if(int(Year) != int(Current_Year)):
+			return render_template('passengerError.html', error="You cannot make a complaint for a previous or future cruise.", username=UserID)
+
+		if(int(Quarter) != int(Current_Quarter)):
+			return render_template('passengerError.html', error="You cannot make a complaint for a previous or future cruise.", username=UserID)
+
 		sql = "select ID from passenger where Login_ID = (%s) and ID like (%s)"
 		values = (UserID, cruise + '___1')
 		mycursor.execute(sql, values)
@@ -2199,6 +2237,19 @@ def passengerRoomServiceDisplay():
 		Year = request.form['Date'][2:4]
 		Quarter = request.form['Quarter']
 		cruise = Year + Quarter
+
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
+		if(int(Year) != int(Current_Year)):
+			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+
+		if(int(Quarter) != int(Current_Quarter)):
+			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
 
 		sql = "select count(*) from Passenger where Login_ID = (%s) and ID like (%s)"
 		values = (UserID, cruise + '___1')
@@ -3533,6 +3584,19 @@ def scheduleFacility():
 
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
+
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
+		if(int(Year) != int(Current_Year)):
+			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+
+		if(int(Quarter) != int(Current_Quarter)):
+			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
 
 		sql = "select count(*) from Facility where Name = (%s)"
 		values = (Name)
