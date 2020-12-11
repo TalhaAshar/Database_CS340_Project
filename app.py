@@ -101,8 +101,8 @@ def verifiedLogin():
 			mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
 			result = mycursor.fetchall()
 
-			Current_Year = result[0][0][0:2]
-			Current_Quarter = result[0][0][2]
+			Current_Year = str(result[0][0])[0:2]
+			Current_Quarter = str(result[0][0])[2]
 			Current_Cruise =Current_Year + Current_Quarter
 
 			sql = "select name, origin, dept_name, Experience, status, ID from crewmate where Login_ID = (%s) and ID like (%s)"
@@ -235,8 +235,8 @@ def committingPassenger_LoginInter():
 		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
 		result = mycursor.fetchall()
 
-		Current_Year = result[0][0][0:2]
-		Current_Quarter = result[0][0][2]
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
 		Current_Cruise =Current_Year + Current_Quarter
 
 		if(int(Year) < int(Current_Year)):
@@ -467,8 +467,8 @@ def bookingPassengerRoomInter():
 		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
 		result = mycursor.fetchall()
 
-		Current_Year = result[0][0][0:2]
-		Current_Quarter = result[0][0][2]
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
 		Current_Cruise =Current_Year + Current_Quarter
 
 		if(int(Year) < int(Current_Year)):
