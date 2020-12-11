@@ -669,10 +669,10 @@ def deletingPassengerRoomInter():
 		Current_Cruise =Current_Year + Current_Quarter
 
 		if(int(Year) < int(Current_Year)):
-			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+			return render_template('passengerError.html', error="You cannot make a cancellation for a previous cruise.", username=UserID)
 
 		if(int(Quarter) < int(Current_Quarter)):
-			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+			return render_template('passengerError.html', error="You cannot make a cancellation for a previous cruise.", username=UserID)
 
 
 		sql = "select Room.ID, Room.Package, Room.Price from Room inner join Passenger on Room.ID = Passenger.Room_ID where Passenger.Login_ID = (%s) and  Passenger.ID like (%s) order by Room.ID asc"
@@ -800,15 +800,18 @@ def upgradingPassengerRoomInter():
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
 
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
 		Current_Year = str(result[0][0])[0:2]
 		Current_Quarter = str(result[0][0])[2]
 		Current_Cruise =Current_Year + Current_Quarter
 
 		if(int(Year) < int(Current_Year)):
-			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+			return render_template('passengerError.html', error="You cannot make an upgrade for a previous cruise.", username=UserID)
 
 		if(int(Quarter) < int(Current_Quarter)):
-			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+			return render_template('passengerError.html', error="You cannot make an upgrade for a previous cruise.", username=UserID)
 
 		sql = "select ID, Package, Price from Room where Package != (%s)"
 		values = ('Crewmate')
@@ -2246,10 +2249,10 @@ def passengerRoomServiceDisplay():
 		Current_Cruise =Current_Year + Current_Quarter
 
 		if(int(Year) != int(Current_Year)):
-			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+			return render_template('passengerError.html', error="You cannot make a room service request for a cruise other than the current cruise.", username=UserID)
 
 		if(int(Quarter) != int(Current_Quarter)):
-			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+			return render_template('passengerError.html', error="You cannot make a room service request for a cruise other than the current cruise.", username=UserID)
 
 		sql = "select count(*) from Passenger where Login_ID = (%s) and ID like (%s)"
 		values = (UserID, cruise + '___1')
@@ -3361,7 +3364,7 @@ def routingJourney():
 		print(Start, End)
 
 		if(Start == End):
-			return render_template('passengerError.html', error='The Destination and Source are the same.', username=UserID, dept=UserDept)
+			return render_template('crewmateError.html', error='The Destination and Source are the same.', username=UserID, dept=UserDept)
 
 		sql = "select count(*) from Location where Name = (%s)"
 		values = (Start)
@@ -3592,11 +3595,11 @@ def scheduleFacility():
 		Current_Quarter = str(result[0][0])[2]
 		Current_Cruise =Current_Year + Current_Quarter
 
-		if(int(Year) != int(Current_Year)):
-			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+		if(int(Date[2:4]) != int(Current_Year)):
+			return render_template('passengerError.html', error="You cannot schedule an activity for a cruise other than the current quarter.", username=UserID)
 
 		if(int(Quarter) != int(Current_Quarter)):
-			return render_template('passengerError.html', error="You cannot make a booking for a previous cruise.", username=UserID)
+			return render_template('passengerError.html', error="You cannot schedule an activity for a cruise other than the current quarter.", username=UserID)
 
 		sql = "select count(*) from Facility where Name = (%s)"
 		values = (Name)
