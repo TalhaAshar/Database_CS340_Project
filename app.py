@@ -1032,6 +1032,16 @@ def crewmateBookType():
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
 
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
+		if(int(cruise) < int(Current_Cruise)):
+			return render_template('offshoreError.html', error='Insertion of Crewmate into a previous quarter is not allowed.')
+
 
 		sql = "select ID from Room where Package = (%s)"
 		values = ('Crewmate')
@@ -1410,6 +1420,16 @@ def updateCrewmate():
 		Quarter = request.form['Quarter']
 		cruise = Year + Quarter
 
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
+		if(int(cruise) < int(Current_Cruise)):
+			return render_template('offshoreError.html', error='Updating of Crewmate from a previous quarter is not allowed.')
+
 		sql = "select count(*) from crewmate where Login_ID = (%s) and ID like (%s)"
 		values = (UserID, cruise + '____')
 		mycursor.execute(sql, values)
@@ -1750,6 +1770,16 @@ def crewmateSwap():
 		cruise = Year + Quarter
 		Dept = request.form['dept']
 
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
+		if(int(cruise) < int(Current_Cruise)):
+			return render_template('offshoreError.html', error='Swapping is only allowed for current or future cruises.')
+
 		sql = "select count(*) from crewmate where Login_ID = (%s) and ID like (%s)"
 		values = (SecondUser, cruise + '____')
 		mycursor.execute(sql, values)
@@ -1955,8 +1985,15 @@ def returnCrewmateHome():
 		UserID = request.form['user']
 		Dept = request.form['dept']
 
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
 		sql = "select ID, name, origin, Experience, status, Dept_Name from crewmate where Login_ID = (%s) and ID like (%s)"
-		values = (UserID, '203___2')
+		values = (UserID, Current_Cruise + '___' + '2')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		ID = result[0][0]
@@ -2346,8 +2383,15 @@ def crewmateRoomServiceIntermediate():
 
 		print(UserID, Dept)
 
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
 		sql = "select Ticket.ID, Ticket.Passenger_ID, Passenger.Room_ID from Ticket inner join Passenger on Ticket.Passenger_ID = Passenger.ID where Ticket.Passenger_ID like (%s) and Ticket.Type = (%s) and Ticket.Status = (%s)"
-		values = ('203___1', 'Room Service', '1')
+		values = (Current_Cruise + '___' + '1', 'Room Service', '1')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 
@@ -2374,11 +2418,18 @@ def crewmateRoomServiceHandle():
 		UserID = request.form['user']
 		Dept = request.form['dept']
 		print(UserID, Dept)
-		cruise = '203'
+
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
 		Ticket = request.form['ticket']
 
 		sql = "select Ticket.ID, Ticket.Passenger_ID, Passenger.Room_ID from Ticket inner join Passenger on Ticket.Passenger_ID = Passenger.ID where Ticket.Passenger_ID like (%s) and Ticket.Type = (%s) and Ticket.Status = (%s)"
-		values = ('203___1', 'Room Service', '1')
+		values = (Current_Cruise + '___1', 'Room Service', '1')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 
@@ -2391,7 +2442,7 @@ def crewmateRoomServiceHandle():
 			return render_template('crewmateError.html', error='Invalid Ticket Number input.', username=UserID, dept=Dept)
 
 		sql = "select ID from crewmate where Login_ID = (%s) and ID like (%s)"
-		values = (UserID, cruise + '___2')
+		values = (UserID, Current_Cruise + '___2')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		
