@@ -98,8 +98,15 @@ def verifiedLogin():
 			if(temp.get('offshore') or (temp.get('passenger'))):
 				return render_template('error.html', error='Please select a single type of account.')
 
+			mycursor.execute("select ID from crewmate where ID like '______2' order by desc LIMIT 1")
+			result = mycursor.fetchall()
+
+			Current_Year = result[0][0][0:2]
+			Current_Quarter = result[0][0][2]
+			Current_Cruise =Current_Year + Current_Quarter
+
 			sql = "select name, origin, dept_name, Experience, status, ID from crewmate where Login_ID = (%s) and ID like (%s)"
-			values = (UserID, '203___2')
+			values = (UserID, Current_Cruise + '___' + '2')
 			mycursor.execute(sql, values)
 			result = mycursor.fetchall()
 
@@ -224,6 +231,19 @@ def committingPassenger_LoginInter():
 
 		mysqldb = mysql.connect()
 		mycursor = mysqldb.cursor()
+
+		mycursor.execute("select ID from crewmate where ID like '______2' order by desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = result[0][0][0:2]
+		Current_Quarter = result[0][0][2]
+		Current_Cruise =Current_Year + Current_Quarter
+
+		if(int(Year) < int(Current_Year)):
+			return render_template('error.html', error="You cannot make a booking for a previous cruise.")
+
+		if(int(Quarter) < int(Current_Quarter)):
+			return render_template('error.html', error="You cannot make a booking for a previous cruise.") 
 
 		sql = "select ID, Package, Price from Room where Package != (%s)"
 		values = ('Crewmate')
