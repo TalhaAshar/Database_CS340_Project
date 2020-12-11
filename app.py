@@ -3234,6 +3234,13 @@ def insertMenu():
 		if Dinner == 0 and Lunch == 0 and Breakfast == 0:
 			return render_template('crewmateError.html', error='You did not select either Breakfast, Dinner, or Lunch.', username=UserID, dept=Dept)
 
+		mycursor.execute("select ID from crewmate where ID like '______2' order by ID desc LIMIT 1")
+		result = mycursor.fetchall()
+
+		Current_Year = str(result[0][0])[0:2]
+		Current_Quarter = str(result[0][0])[2]
+		Current_Cruise =Current_Year + Current_Quarter
+
 		mycursor.execute("select Name from Menu order by Name asc")
 		result = mycursor.fetchall()
 
@@ -3252,7 +3259,7 @@ def insertMenu():
 		new_id = result[0][0] + 1
 
 		sql = "select ID from Crewmate where Login_ID = (%s) and Status = (%s) and ID like (%s)"
-		values = (UserID, '1', '203___2')
+		values = (UserID, '1', Current_Cruise + '___2')
 		mycursor.execute(sql, values)
 		result = mycursor.fetchall()
 		print("here")
